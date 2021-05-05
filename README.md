@@ -6,6 +6,10 @@ A collection of blog articles on building a microservice in Go
 
 List of topics that we want to cover within the tutorials / blog posts
 
+### Developer Setup
+
+- [ ] Golang setup (how to install & configure)
+
 ### Golang Coding
 
 - [ ] architecture: router - controller - services - client - model - storage - helpers / commons

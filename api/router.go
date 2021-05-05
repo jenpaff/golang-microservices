@@ -8,7 +8,9 @@ import (
 
 func NewRouter(controller *Controller) http.Handler {
 	ws := new(restful.WebService)
-	ws.GET("/health").To(controller.Health)
+	ws.Route(
+		ws.GET("/health").
+			To(controller.Health))
 
 	corsRouter := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
