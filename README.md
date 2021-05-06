@@ -26,7 +26,7 @@ List of topics that we want to cover within the tutorials / blog posts
 
 ### Testing
 
-- [ ] testing containers
+- [ ] e2e testing with testing-containers
 - [ ] HTTP integration tests
 - [ ] Ginkgo
 - [ ] using / generating mocks (tags, `./do` script task...)

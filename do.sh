@@ -15,6 +15,7 @@ local_port='12345'
 ## build: build the go binary for our webservice
 function task_build {
   green "Building go binary..."
+  go get -d ./...
   go build -o ${binary_path} cmd/webservice/main.go
   green "Find binary in '${binary_path}'"
 }

@@ -1,5 +1,6 @@
 # the usual suspects...
 .idea
+.talismanrc
 
 # our go binary
 webservice
