@@ -54,3 +54,8 @@ jobs:
 ```
 
 We also think that this makes the pipeline easier to read. 
+
+## TODOs
+
+- [ ] add idea of self-documentation (man page)
+- [ ] add auto-complete snippet for bash / zsh
