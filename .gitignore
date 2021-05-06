@@ -1,1 +1,5 @@
+# the usual suspects...
 .idea
+
+# our go binary
+webservice

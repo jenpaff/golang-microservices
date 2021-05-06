@@ -39,14 +39,23 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] local dev setup (Docker, compose, config.json)
 - [ ] versioning (traceability)
 - [ ] linting
-- [ ] packaging with Docker (building container images)
+- [ ] packaging with Docker (`Dockerfile`, building container images)
 - [ ] simple GitHub Actions pipeline
+- [ ] using go modules from private repositories (`go.customer.com/...`) with proper `.gitconfig`...
 
 ### Deployment
 
 - [ ] helm charts
 - [ ] health endpoints
 - [ ] configuration & credentials management
+
+### Documentation
+
+- [ ] How to write a proper `README`
+
+### Anti-Patterns
+
+- [ ] shared libraries
 
 ## References
 
