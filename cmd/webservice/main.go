@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-playground/log"
+	. "github.com/jenpaff/golang-microservices/app"
 )
 
 func main() {
