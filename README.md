@@ -47,3 +47,8 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] helm charts
 - [ ] health endpoints
 - [ ] configuration & credentials management
+
+## References
+
+* [GitHub Actions for Golang](https://github.com/mvdan/github-actions-golang)
+* [Set up Golang on Mac with Homebrew](https://jimkang.medium.com/install-go-on-mac-with-homebrew-5fa421fc55f5)
