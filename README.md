@@ -42,6 +42,7 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] packaging with Docker (`Dockerfile`, building container images)
 - [ ] simple GitHub Actions pipeline
 - [ ] using go modules from private repositories (`go.customer.com/...`) with proper `.gitconfig`...
+- [x] provide a `Dockerfile` example for a multi-stage build - see https://levelup.gitconnected.com/complete-guide-to-create-docker-container-for-your-golang-application-80f3fb59a15e
 
 ### Deployment
 

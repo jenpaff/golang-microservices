@@ -50,7 +50,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build
-        run: ./do build
+        run: ./do.sh build
 ```
 
 We also think that this makes the pipeline easier to read. 
