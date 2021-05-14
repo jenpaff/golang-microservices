@@ -13,3 +13,7 @@
 ## Build Tooling
 
 * [Building the Docker Image](dockerization.md)
+
+## REST Service Implementation
+
+* [Error Handling and HTTP Status](rest-error-handling.md)

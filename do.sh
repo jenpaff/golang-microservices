@@ -23,12 +23,15 @@ function task_build {
 ## build-container: builds a Docker image for our webservice
 function task_build_container {
   green "Start building Docker image..."
+  docker image rm -f ${image_name}
   docker build --no-cache -t ${image_name} .
   green "Finished building Docker image '${image_name}'"
 }
 
 ## run-container: run our webservice in a Docker container
 function task_run_container {
+  green "Removing old docker container"
+  docker rm -f golang-microservices
   task_build_container
   green "Starting webservice in a Docker container"
   docker run -d --name ${container_name} -p 12345:12345 golang-microservices

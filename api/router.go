@@ -20,6 +20,11 @@ func newService(controller *Controller) *restful.WebService {
 			To(controller.Health).
 			Produces(restful.MIME_JSON).
 			Returns(http.StatusOK, http.StatusText(http.StatusOK), Health{}))
+	ws.Route(
+		ws.GET("/error").
+			To(ErrorHandler(controller.Error)).
+			Produces(restful.MIME_JSON).
+			Returns(http.StatusOK, http.StatusText(http.StatusOK), nil))
 	return ws
 }
 
