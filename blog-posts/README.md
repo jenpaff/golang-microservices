@@ -16,4 +16,5 @@
 
 ## REST Service Implementation
 
+* [How we structured our service](project-structure.md)
 * [Error Handling and HTTP Status](rest-error-handling.md)
