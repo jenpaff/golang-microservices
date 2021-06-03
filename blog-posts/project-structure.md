@@ -12,7 +12,9 @@ This stores the router and handlers for the REST api.
 
 ### /migrations
 This contains the database migration files.
+
 ### /storage
+
 
 ## Interesting links
 https://www.youtube.com/watch?v=oL6JBUk6tj0 // https://github.com/katzien/go-structure-examples/blob/master/modular/storage/storage.go

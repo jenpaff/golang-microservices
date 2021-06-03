@@ -4,3 +4,5 @@
 
 # our go binary
 webservice
+migration
+/persistence/models

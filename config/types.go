@@ -5,3 +5,12 @@ type Config struct {
 }
 
 type FeatureToggles map[string]bool
+
+type Postgres struct {
+	Host       string
+	Port       int
+	UserName   string
+	Password   string
+	DBName     string
+	SSLEnabled bool
+}
