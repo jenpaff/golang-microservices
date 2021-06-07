@@ -24,6 +24,8 @@ function task_build {
 
 ## build-container: builds a Docker image for our webservice
 function task_build_container {
+  green "Generating models"
+  task_generate_db_models
   green "Start building Docker image..."
   docker image rm -f ${image_name}
   docker build --no-cache -t ${image_name} .
