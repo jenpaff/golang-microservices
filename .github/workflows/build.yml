@@ -10,6 +10,8 @@ jobs:
           go-version: 1.16.x
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Lint
+        run: ./do.sh lint
       - name: Build
         run: ./do.sh build
   containerise:

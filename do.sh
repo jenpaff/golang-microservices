@@ -22,6 +22,17 @@ function task_build {
   green "Find binary in '${binary_path}'"
 }
 
+## lint : will run golangci linter
+function task_lint() {
+    if ! [ -x "$(command -v golangci-lint)" ]; then
+        echo "Fetching linter..."
+        go install github.com/golangci/golangci-lint/cmd/golangci-lint
+        go mod tidy
+    fi
+
+    golangci-lint run
+}
+
 ## build-container: builds a Docker image for our webservice
 function task_build_container {
   green "Generating models"
