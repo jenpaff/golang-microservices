@@ -9,7 +9,6 @@ require (
 	github.com/go-playground/errors v3.3.0+incompatible // indirect
 	github.com/go-playground/log v6.3.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.14.1
-	github.com/golangci/golangci-lint v1.40.1 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.5.0
