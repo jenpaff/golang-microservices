@@ -5,6 +5,8 @@
 ## Go Modules used in this Project
 
 * [go-restful](https://github.com/emicklei/go-restful)
+* [sqlboiler](https://github.com/volatiletech/sqlboiler)
+* [golang-migrate](https://github.com/golang-migrate/migrate)
 
 ## Local Developer Setup
 

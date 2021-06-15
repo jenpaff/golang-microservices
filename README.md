@@ -18,7 +18,7 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] error handling (mapping errors to HTTP status codes)
 - [ ] providing batch commands in separate binaries (DB migration)
 - [ ] validation (JSON schema)
-- [ ] ORM (sqlboiler...)
+- [x] ORM (sqlboiler...)
 - [ ] Feature Toggles
 - [ ] authentication & authorization (e.g. use GitHub SSO)
 - [ ] different types: requestTypes, domain model, storage types
