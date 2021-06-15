@@ -26,7 +26,7 @@ function task_build {
 function task_lint() {
     if ! [ -x "$(command -v golangci-lint)" ]; then
         echo "Fetching linter..."
-        go install github.com/golangci/golangci-lint/cmd/golangci-lint
+        go get github.com/golangci/golangci-lint/cmd/golangci-lint
         go mod tidy
     fi
 
