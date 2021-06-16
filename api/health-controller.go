@@ -9,7 +9,7 @@ type Health struct {
 	Status string `json:"status"`
 }
 
-func (c *Controller)  Health(_ *restful.Request, resp *restful.Response) {
+func (c *Controller) Health(_ *restful.Request, resp *restful.Response) {
 	log.Info("health endpoint was invoked")
 	health := &Health{Status: "up"}
 	err := resp.WriteEntity(health)

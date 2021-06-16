@@ -18,6 +18,7 @@ var httpErrors = make(map[HttpError]bool)
 
 var ErrInternalServerError = newHttpError("INTERNAL_SERVER_ERROR", http.StatusInternalServerError)
 var ErrBadRequest = newHttpError("BAD_REQUEST", http.StatusBadRequest)
+var ErrUserNotFound = newHttpError("USER_NOT_FOUND", http.StatusNotFound)
 
 type HttpError interface {
 	Error() string
@@ -79,4 +80,3 @@ func ErrorHandler(errorRouteFunction ErrorRouteFunction) RouteFunction {
 		}
 	}
 }
-
