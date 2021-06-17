@@ -4,10 +4,10 @@ wipe     = true
 no-tests = true
 
 [psql]
-  dbname = "postgres"
+  dbname = "golangservice"
   host   = "localhost"
   port   = 5432
-  user   = "my-user"
-  pass   = "my-users-password"
+  user   = "postgres"
+  pass   = "password"
   sslmode = "disable"
   blacklist = ["schema_migrations"]

@@ -9,3 +9,6 @@ migration
 # test coverage
 .coverprofile
 coverage
+
+# database
+pgdata

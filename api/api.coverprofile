@@ -1,0 +1,15 @@
+mode: atomic
+github.com/jenpaff/golang-microservices/api/health-controller.go:12.73,16.16 4 1
+github.com/jenpaff/golang-microservices/api/health-controller.go:19.2,19.46 1 1
+github.com/jenpaff/golang-microservices/api/health-controller.go:16.16,18.3 1 0
+github.com/jenpaff/golang-microservices/api/router.go:9.53,15.2 5 1
+github.com/jenpaff/golang-microservices/api/router.go:17.61,30.2 4 1
+github.com/jenpaff/golang-microservices/api/router.go:32.57,40.2 2 1
+github.com/jenpaff/golang-microservices/api/user-controller.go:15.82,20.39 3 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:24.2,25.16 2 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:28.2,29.16 2 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:32.2,34.12 2 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:20.39,22.3 1 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:25.16,27.3 1 0
+github.com/jenpaff/golang-microservices/api/user-controller.go:29.16,31.3 1 0
+github.com/jenpaff/golang-microservices/api/controller.go:9.34,11.2 1 1

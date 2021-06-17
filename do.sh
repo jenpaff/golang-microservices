@@ -116,7 +116,7 @@ function task_run_db {
     ./migration "localhost" "5432" "postgres" "false" "my-user" "my-users-password"
 }
 
-## build-migration: build the go binary for our webservice
+## build-migrations: build the go binary for our webservice
 function task_build_migrations {
   green "Building go binary for migrations ..."
   go get -d ./...

@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/emicklei/go-restful"
+	"github.com/jenpaff/golang-microservices/errors"
 	"net/http"
 )
 
@@ -20,6 +21,11 @@ func newService(controller *Controller) *restful.WebService {
 			To(controller.Health).
 			Produces(restful.MIME_JSON).
 			Returns(http.StatusOK, http.StatusText(http.StatusOK), Health{}))
+	ws.Route(
+		ws.GET("/users/{userName}").
+			To(errors.ErrorHandler(controller.GetUser)).
+			Produces(restful.MIME_JSON).
+			Returns(http.StatusOK, http.StatusText(http.StatusOK), User{}))
 	return ws
 }
 

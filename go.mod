@@ -12,6 +12,7 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang/mock v1.4.4
 	github.com/json-iterator/go v1.1.11 // indirect
+	github.com/lib/pq v1.8.0
 	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
 	github.com/rs/cors v1.7.0

@@ -5,8 +5,10 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/go-playground/log"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jenpaff/golang-microservices/config"
 	"github.com/jenpaff/golang-microservices/persistence/models"
+	_ "github.com/lib/pq"
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
