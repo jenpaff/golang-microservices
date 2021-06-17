@@ -36,7 +36,9 @@ function task_lint() {
 function assert_ginkgo {
     if ! [ -x "$(command -v ginkgo)" ]; then
         echo "Installing ginkgo cli..."
-        go install github.com/onsi/ginkgo/ginkgo
+        popd /tmp > /dev/null
+        GO111MODULE=on go get github.com/onsi/ginkgo/ginkgo
+        pushd
     fi
 }
 
@@ -48,7 +50,7 @@ function task_test {
 
     echo "Starting tests..."
 
-    CONFIG_PATH="$(pwd)/config" ginkgo -r --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
+    CONFIG_PATH="$(pwd)/config" ginkgo -r --progress --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
 }
 
 ## build-container: builds a Docker image for our webservice

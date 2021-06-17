@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 )
 
-var _ = Describe("HealthController", func() {
+var _ = Describe("Health Controller", func() {
 
 	Context("service is up", func() {
 

@@ -10,8 +10,8 @@ require (
 	github.com/go-playground/log v6.3.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/json-iterator/go v1.1.11 // indirect
-	github.com/onsi/ginkgo v1.12.0
-	github.com/onsi/gomega v1.9.0
+	github.com/onsi/ginkgo v1.16.4
+	github.com/onsi/gomega v1.13.0
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.5.0
 	github.com/volatiletech/strmangle v0.0.1
