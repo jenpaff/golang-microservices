@@ -5,3 +5,7 @@
 # our go binary
 webservice
 migration
+
+# test coverage
+.coverprofile
+coverage

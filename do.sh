@@ -61,12 +61,12 @@ function task_test_coverage {
   # a overall .coverprofile.
   # finally, it outputs a report on the commandline and in the browser (if run in terminal)
 
-
-  task_test
   rm -f coverage/coverage.txt
   mkdir -p coverage
   touch coverage/coverage.txt
   echo "mode: set" >> coverage/coverage.txt
+
+  task_test
 
   for d in $(find . | grep '.coverprofile'); do
     tail -n +2 ${d} >> coverage/coverage.txt
