@@ -26,20 +26,12 @@ function task_build {
 function task_lint() {
     if ! [ -x "$(command -v golangci-lint)" ]; then
         echo "Fetching linter..."
+        pushd /tmp > /dev/null
         go get github.com/golangci/golangci-lint/cmd/golangci-lint
-        go mod tidy
+        popd > /dev/null
     fi
 
     golangci-lint run
-}
-
-function assert_ginkgo {
-    if ! [ -x "$(command -v ginkgo)" ]; then
-        echo "Installing ginkgo cli..."
-        pushd /tmp > /dev/null
-        GO111MODULE=on go get github.com/onsi/ginkgo/ginkgo
-        popd > /dev/null
-    fi
 }
 
 ## test : run all tests
@@ -142,8 +134,10 @@ function task_generate_db_models {
     task_run_db
     if ! command -v sqlboiler > /dev/null ; then
         echo "Installing sqlboiler..."
+        pushd /tmp > /dev/null
         go get github.com/volatiletech/sqlboiler/v4
         go get github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql
+        popd > /dev/null
     fi
     sqlboiler psql
 }
@@ -153,8 +147,9 @@ function task_generate_all_mocks {
   echo "Generating all mocks..."
     if ! [ -x "$(command -v mockgen)" ]; then
         echo "Fetching mockgen..."
+        pushd /tmp > /dev/null
         go get github.com/golang/mock/mockgen
-        go mod tidy
+        popd > /dev/null
     fi
 
     go generate ./...
@@ -168,6 +163,15 @@ function task_usage {
 
 function green {
   echo -e "${green}$1${normal}"
+}
+
+function assert_ginkgo {
+    if ! [ -x "$(command -v ginkgo)" ]; then
+        echo "Installing ginkgo cli..."
+        pushd /tmp > /dev/null
+        GO111MODULE=on go get github.com/onsi/ginkgo/ginkgo
+        popd > /dev/null
+    fi
 }
 
 # read expected task as first CLI parameter

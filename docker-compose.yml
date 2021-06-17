@@ -1,0 +1,32 @@
+version: '3.5'
+
+networks:
+  goservice:
+    name: goservice
+    driver: bridge
+
+services:
+  golang-microservice:
+    # TODO add a version tag
+    image: 'golang-microservice'
+    depends_on:
+      - postgres
+    ports:
+      - "8027:8027"
+    container_name: golang-microservice
+    networks:
+      - goservice
+
+  postgres:
+    image: "postgres:11"
+    networks:
+      - goservice
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    container_name: go-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: golangservice
