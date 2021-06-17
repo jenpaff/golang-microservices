@@ -26,12 +26,12 @@ List of topics that we want to cover within the tutorials / blog posts
 
 ### Testing
 
-- [ ] e2e testing with testing-containers
-- [ ] HTTP integration tests
-- [ ] Ginkgo
-- [ ] using / generating mocks (tags, `./do` script task...)
+- [ ] e2e testing with testing-containers (health + endpoint that checks db, ...)
+- [ ] HTTP integration tests (all endpoints)
+- [ ] Ginkgo (parameterized tests)
+- [ ] using / generating mocks (gomock, go generate tags, `./do` script task...)
 - [ ] Contract Tests (consumer tests, provider tests, pact broker, managing pacts in pipeline)
-- [ ] Test Coverage
+- [ ] Test Coverage (check out ginkgo test coverage - how to check integration & contract tests)
 
 ### Build & CI
 

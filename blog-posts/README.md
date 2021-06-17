@@ -16,6 +16,10 @@
 
 * [Building the Docker Image](dockerization.md)
 
+## Testing
+
+* [Testing (with Ginkgo)](testing.txt)
+
 ## REST Service Implementation
 
 * [How we structured our service](project-structure.md)

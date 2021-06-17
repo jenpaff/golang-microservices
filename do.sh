@@ -33,6 +33,24 @@ function task_lint() {
     golangci-lint run
 }
 
+function assert_ginkgo {
+    if ! [ -x "$(command -v ginkgo)" ]; then
+        echo "Installing ginkgo cli..."
+        go install github.com/onsi/ginkgo/ginkgo
+    fi
+}
+
+## test : run all tests
+function task_test {
+    task_lint
+
+    assert_ginkgo
+
+    echo "Starting tests..."
+
+    CONFIG_PATH="$(pwd)/config" ginkgo -r --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
+}
+
 ## build-container: builds a Docker image for our webservice
 function task_build_container {
   green "Generating models"

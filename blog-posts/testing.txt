@@ -1,0 +1,56 @@
+# (Ginkgo) Tests
+
+Example: we want to write a test for our health Controller
+
+## The Testing Pyramid
+
+- [ ] Describe how we organise our tests
+  - [ ] Unit Level
+  - [ ] Controller Tests
+  - [ ] Integration Tests
+  - [ ] End-2-end tests (e.g. testing-container)
+
+## Bootstrapping a Ginkgo Test Suite
+
+Describes how to get started with Ginkgo and generate the required files.
+
+- [ ] describe what each of the file is doing and why we need it
+
+1. From within the `/api` directory run
+
+   ```bash
+   ginkgo bootstrap
+   ```
+
+   to create a `_suite_test.go` file.
+
+1. For creating a test file, run
+
+   ```bash
+   ginkgo generate health-controller.go
+   ```
+
+## Ginkgo Test Structure
+
+Ginkgo allowsto structure your tests with `Describe`, `Context`, `It` and `By` to make your tests more expressive.
+
+## Controller Tests
+
+Goal of the controller tests is to test the controller methods for our endpoints. Therefore we run an actual HTTP request against our router and make assertions on the generated response. Since we test an isolated unit of code here (the controller), we count Controller tests as unit tests.
+
+Here are the relevant lines:
+
+```golang
+controller := api.NewController()
+router := api.NewRouter(controller)
+rr := httptest.NewRecorder()
+req, _ := http.NewRequest(http.MethodGet, "/health", nil)
+
+router.ServeHTTP(rr, req)
+
+Expect(rr.Code).To(Equal(http.StatusOK))
+```
+
+## Further Resources / Thoughts
+
+* about build tags in integration tests - see [this blog post](https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html)
