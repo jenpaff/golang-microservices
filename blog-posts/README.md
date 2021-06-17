@@ -18,7 +18,7 @@
 
 ## Testing
 
-* [Testing (with Ginkgo)](testing.txt)
+* [Testing (with Ginkgo)](testing.md)
 
 ## REST Service Implementation
 
