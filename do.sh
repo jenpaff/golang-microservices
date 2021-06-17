@@ -54,6 +54,33 @@ function task_test {
     CONFIG_PATH="$(pwd)/config" ginkgo -r --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing --cover ./...
 }
 
+## test-coverage : generate overall test coverage report and show in browser
+function task_test_coverage {
+  # our task_test creates a .coverprofile in each package
+  # this task concatenates those profiles and generates
+  # a overall .coverprofile.
+  # finally, it outputs a report on the commandline and in the browser (if run in terminal)
+
+
+  task_test
+  rm -f coverage/coverage.txt
+  mkdir -p coverage
+  touch coverage/coverage.txt
+  echo "mode: set" >> coverage/coverage.txt
+
+  for d in $(find . | grep '.coverprofile'); do
+    tail -n +2 ${d} >> coverage/coverage.txt
+  done
+
+  go tool cover -func=coverage/coverage.txt
+
+  # only show coverage in browser, if run within a terminal
+  if [ -t 1 ] ; then
+    # see https://blog.golang.org/cover
+    go tool cover -html=coverage/coverage.txt
+  fi
+}
+
 ## build-container: builds a Docker image for our webservice
 function task_build_container {
   green "Generating models"

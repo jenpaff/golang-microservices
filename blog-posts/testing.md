@@ -1,4 +1,4 @@
-# (Ginkgo) Tests
+# Testing
 
 Example: we want to write a test for our health Controller
 
@@ -51,9 +51,32 @@ router.ServeHTTP(rr, req)
 Expect(rr.Code).To(Equal(http.StatusOK))
 ```
 
+## Mocking
+
+- [ ] describe why we are using mocks
+- [ ] describe how to generate mocks (`./do` task)
+- [ ] describe how to use mocks in our tests
+
+## Test Task in `./do.sh` Script
+
+For a better developer experience we add a task `./do.sh test` that runs our (unit) tests for us. The task checks whether the Ginkgo binary is installed and if not installs it and afterwards runs the tests.
+
+We use the very same task in our build pipeline to run our tests. Besides reducing the amount of shell snippets in our pipeline definition this also improves "dev-prod-parity" since we can run the very same code that runs the tests in our pipeline on our developer machine and would get fast feedback if something doesn't work as it is expected.
+
+## Generating Test Coverage Reports
+
+Test coverage is a great tool to identify blind spots in our tests. We usually generate a coverage report while running our tests in a pipeline. Some CI servers like Jenkins or Azure DevOps Pipelines allow for showing coverage reports as part of the builds. Unfortunately GitHub actions (on which we based our sample pipeline) so far has no option to show such reports.
+
+We therefore created a task `test-coverage` in our `./do.sh` script to show the test coverage in the browser.
+
+For a detailed explanation of test coverage and associated tooling in Golang check [this blog post](https://blog.golang.org/cover).
+
+- [ ] how to visualise test coverage in a GitHub action (ideally without any 3rd party tools...)
+
 ## Further Resources / Thoughts
 
-* about build tags in integration tests - see [this blog post](https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html)
+* [about build tags in integration tests](https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html)
+* [test coverage in Golang](https://blog.golang.org/cover)
 
 
 ## TODOs
