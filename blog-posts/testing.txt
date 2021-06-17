@@ -54,3 +54,32 @@ Expect(rr.Code).To(Equal(http.StatusOK))
 ## Further Resources / Thoughts
 
 * about build tags in integration tests - see [this blog post](https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html)
+
+
+## TODOs
+
+* raise a feature request in Ginkgo that allows this
+
+   ```
+   Health Controller service is up
+     calling /health returns status up
+     /Users/amreivonczettritz/workspace/golang-microservices/api/health_controller_test.go:16
+   [It] calling /health returns status up
+     /Users/amreivonczettritz/workspace/golang-microservices/api/health_controller_test.go:16
+   •
+   ------------------------------
+   Health Controller service is up
+     calling /health returns status 200
+     /Users/amreivonczettritz/workspace/golang-microservices/api/health_controller_test.go:32
+   [It] calling /health returns status u200
+     /Users/amreivonczettritz/workspace/golang-microservices/api/health_controller_test.go:32
+   ```
+
+   to be rendered as
+
+   ```
+   Health Controller
+     service is up
+       calling /health returns status up
+       calling /health returns status 200
+   ```
