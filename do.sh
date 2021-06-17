@@ -45,6 +45,7 @@ function assert_ginkgo {
 ## test : run all tests
 function task_test {
     task_lint
+    task_generate_all_mocks
 
     assert_ginkgo
 
@@ -118,6 +119,18 @@ function task_generate_db_models {
         go get github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql
     fi
     sqlboiler psql
+}
+
+## generate-all-mocks: generates all mocks for interfaces with mockgen annotation
+function task_generate_all_mocks {
+  echo "Generating all mocks..."
+    if ! [ -x "$(command -v mockgen)" ]; then
+        echo "Fetching mockgen..."
+        go get github.com/golang/mock/mockgen
+        go mod tidy
+    fi
+
+    go generate ./...
 }
 
 # print out an auto-generated "man page" for this script
