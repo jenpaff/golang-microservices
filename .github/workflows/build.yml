@@ -14,6 +14,8 @@ jobs:
         run: ./do.sh lint
       - name: Build
         run: ./do.sh build
+      - name: Test
+        run: ./do.sh test
   containerise:
     runs-on: ubuntu-latest
     steps:
