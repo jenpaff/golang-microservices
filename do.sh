@@ -39,12 +39,24 @@ function task_test {
     task_lint
     task_generate_all_mocks
 
+    tags=${1:-"unit"}
+
     assert_ginkgo
 
     echo "Starting tests..."
 
-    CONFIG_PATH="$(pwd)/config" ginkgo -r --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing --cover ./...
+    CONFIG_PATH="$(pwd)/config" ginkgo -r -tags="$tags" --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing --cover ./...
 }
+
+## integration-test [clientsecret]: will spin up a sb and integration tests server and run integration tests
+function task_integration_test {
+  task_run_db
+
+  assert_ginkgo
+
+  CONFIG_PATH="$(pwd)/config" ginkgo -r -tags=integration --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
+}
+
 
 ## test-coverage : generate overall test coverage report and show in browser
 function task_test_coverage {
@@ -95,17 +107,18 @@ function task_run_container {
 
 ## run-db : start local postgres database
 function task_run_db {
+    docker network create go-service 2>/dev/null || true
     green "Removing old database"
-    docker rm -f local-db
+    docker rm -f go-postgres
     green "Pulling image"
     docker pull postgres:11
 
     docker run -d \
-        -e POSTGRES_DB="postgres" \
-        -e POSTGRES_USER="my-user" \
-        -e POSTGRES_PASSWORD="my-users-password" \
+        -e POSTGRES_DB="golangservice" \
+        -e POSTGRES_USER="postgres" \
+        -e POSTGRES_PASSWORD="password" \
         -e POSTGRES_HOST_AUTH_METHOD="trust" \
-        --name="local-db" \
+        --name="go-postgres" \
         -p 5432:5432 \
         -m 128m \
         postgres:11
@@ -113,7 +126,7 @@ function task_run_db {
     sleep 2
     task_build_migrations
     green "Running migrations"
-    ./migration "localhost" "5432" "postgres" "false" "my-user" "my-users-password"
+    ./migration "localhost" "5432" "golangservice" "false" "postgres" "password"
 }
 
 ## build-migrations: build the go binary for our webservice
