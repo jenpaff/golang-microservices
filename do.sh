@@ -7,7 +7,7 @@ green='\033[1;32m'
 normal='\033[0m'
 
 binary_path='webservice'
-image_name='golang-microservice'
+image_name='golang-microservices'
 container_name=${image_name}
 local_port='12345'
 
@@ -48,7 +48,7 @@ function task_test {
     CONFIG_PATH="$(pwd)/config" ginkgo -r -tags="$tags" --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing --cover ./...
 }
 
-## integration-test [clientsecret]: will spin up a sb and integration tests server and run integration tests
+## integration-test: will spin up a sb and integration tests server and run integration tests
 function task_integration_test {
   task_run_db
 
@@ -99,10 +99,13 @@ function task_build_container {
 function task_run_container {
   green "Removing old docker container"
   docker rm -f golang-microservices
+  docker rm -f go-postgres
   task_build_container
-  green "Starting webservice in a Docker container"
-  docker run -d --name ${container_name} -p 12345:12345 golang-microservices
-  green "Container running - you can stop the container with 'docker stop ${container_name}'"
+
+  docker-compose up -d
+  sleep 20
+  task_build_migrations
+  ./migration "localhost" "5432" "golangservice" "false" "postgres" "password"
 }
 
 ## run-db : start local postgres database

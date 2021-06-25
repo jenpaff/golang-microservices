@@ -4,11 +4,7 @@ package integrationtests
 
 import (
 	"encoding/json"
-	"github.com/go-playground/log"
-	"github.com/go-playground/log/handlers/console"
-	"github.com/golang/mock/gomock"
 	"github.com/jenpaff/golang-microservices/api"
-	test_helper "github.com/jenpaff/golang-microservices/test-helper"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"io/ioutil"
@@ -18,18 +14,8 @@ import (
 var _ = Describe("Golang Service", func() {
 
 	var golangService GolangService
-	var mockController *gomock.Controller
-
-	BeforeSuite(func() {
-		cLog := console.New(false)
-		log.AddHandler(cLog, log.AllLevels[log.ErrorLevel])
-
-		mockController = gomock.NewController(test_helper.GinkgoTestReporter{})
-		golangService = NewGolangService()
-	})
 
 	BeforeEach(func() {
-		mockController = gomock.NewController(test_helper.GinkgoTestReporter{})
 		golangService = NewGolangService()
 		golangService.Start()
 	})

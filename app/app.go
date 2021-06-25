@@ -2,17 +2,21 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-playground/log"
 	"github.com/jenpaff/golang-microservices/api"
+	"github.com/jenpaff/golang-microservices/config"
+	"github.com/jenpaff/golang-microservices/persistence"
+	"golang.org/x/sync/errgroup"
 	"net/http"
 	"os"
-	"os/signal"
-	"syscall"
+	"time"
 )
 
 type App struct {
 	server *http.Server
 	port   string
+	cfg    config.Config
 }
 
 func NewApp(port string) *App {
@@ -22,28 +26,62 @@ func NewApp(port string) *App {
 	return &App{server: server, port: port}
 }
 
-func (a *App) Start() {
-	var err error
+func (a App) Start() error {
+	ctx := context.Background()
+
+	log.Info("Starting...")
+
+	err := ensureDatabaseConnectivity(ctx, a.cfg.Persistence)
+	if err != nil {
+		return err
+	}
+
+	// everything below enables graceful shutdown of our service without dropping any requests
+
 	go func() {
-		err := a.server.ListenAndServe()
+		log.Infof("Listening on port %s", a.port)
+		err = a.server.ListenAndServe()
 		if err != nil && err != http.ErrServerClosed {
 			log.WithError(err).Errorf("Could not listen on port %s", a.port)
 			os.Exit(1)
 		}
 	}()
 
-	stop := make(chan os.Signal, 1)
+	return nil
+}
 
-	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
-
-	<-stop
-
+func (a App) Stop() {
 	log.Info("Shutting down server")
 
-	if serverErr := a.server.Shutdown(context.Background()); serverErr != nil {
-		log.WithError(err).Warn("Couldn't shutdown server")
-		os.Exit(1)
+	if err := a.server.Shutdown(context.Background()); err != nil {
+		log.WithError(fmt.Errorf("couldn't shutdown server cleanly: %s", err.Error()))
 	}
 
-	log.Info("Shut down successful")
+	log.Info("Shutting down done")
+}
+
+func ensureDatabaseConnectivity(ctx context.Context, cfg config.PersistenceConfig) error {
+	deadline := 20 * time.Second
+	pollingDelay := 500 * time.Millisecond
+
+	ctx, cancel := context.WithTimeout(ctx, deadline)
+	defer cancel()
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", cfg.DbHost, cfg.DbPort, cfg.DbUsername, cfg.DbName, cfg.DbPassword)
+	if !cfg.SslEnabled {
+		pgOptions = pgOptions + " sslmode=disable"
+	}
+
+	g.Go(func() error {
+		log.Infof("Checking for database connectivity on host: %s port: %d with user: %s", cfg.DbHost, cfg.DbPort, cfg.DbUsername)
+		err := persistence.EnsureConnected(ctx, pgOptions, pollingDelay)
+		if err != nil {
+			return fmt.Errorf("could not initialise database: %s", err.Error())
+		}
+		return nil
+	})
+
+	return g.Wait()
 }

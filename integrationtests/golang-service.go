@@ -52,10 +52,11 @@ func (p golangService) Start() {
 	err := ensureServiceUpAndRunning(ctx, p.app)
 	Expect(err).ToNot(HaveOccurred())
 	//give the server some time to start
-	time.Sleep(1 * time.Second)
+	time.Sleep(5 * time.Second)
 }
 
 func (p golangService) Stop() {
+	p.app.Stop()
 }
 
 func (p golangService) Get(url string, headers map[string]string) *http.Response {

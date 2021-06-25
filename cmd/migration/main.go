@@ -34,7 +34,6 @@ func main() {
 		UserName:   os.Args[5],
 		Password:   os.Args[6],
 	}
-	log.Infof("config is %v", pgConfig)
 
 	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", pgConfig.Host, pgConfig.Port, pgConfig.UserName, pgConfig.DBName, pgConfig.Password)
 	if !pgConfig.SSLEnabled {
