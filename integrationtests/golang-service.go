@@ -34,10 +34,10 @@ type golangService struct {
 }
 
 func NewGolangService() GolangService {
-	app := app.NewApp("8027")
+	application := app.NewApp("8027")
 
 	return &golangService{
-		app:     app,
+		app:     application,
 		headers: map[string]string{},
 	}
 }
@@ -137,7 +137,8 @@ func ensureServiceUpAndRunning(ctx context.Context, app *app.App) error {
 	g, _ := errgroup.WithContext(ctx)
 
 	g.Go(func() error {
-		app.Start()
+		err := app.Start()
+		Expect(err).ToNot(HaveOccurred())
 		return nil
 	})
 
