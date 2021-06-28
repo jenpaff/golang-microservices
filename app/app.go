@@ -16,7 +16,6 @@ import (
 type App struct {
 	server *http.Server
 	port   string
-	cfg    config.Config
 }
 
 func NewApp(port string) *App {
@@ -31,7 +30,17 @@ func (a App) Start() error {
 
 	log.Info("Starting...")
 
-	err := ensureDatabaseConnectivity(ctx, a.cfg.Persistence)
+	// TODO: read from config file via config service
+	persistenceConfig := config.PersistenceConfig{
+		DbName:     "golangservice",
+		DbHost:     "localhost",
+		DbPort:     5432,
+		DbUsername: "postgres",
+		DbPassword: "password",
+		SslEnabled: false,
+	}
+
+	err := ensureDatabaseConnectivity(ctx, persistenceConfig)
 	if err != nil {
 		return err
 	}
