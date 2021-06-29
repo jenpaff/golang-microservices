@@ -18,6 +18,8 @@ jobs:
         run: ./do.sh test
       - name: Integration Test
         run: ./do.sh integration-test
+      - name: Container Test
+        run: ./do.sh container-test
   containerise:
     runs-on: ubuntu-latest
     steps:
