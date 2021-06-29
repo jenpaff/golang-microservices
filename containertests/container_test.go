@@ -5,6 +5,9 @@ package containertests
 import (
 	"context"
 	"encoding/json"
+	docker_types "github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/filters"
+	"github.com/docker/docker/client"
 	"github.com/jenpaff/golang-microservices/api"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -57,3 +60,18 @@ var _ = Describe("Golang Service", func() {
 		})
 	})
 })
+
+func removeContainer(imageName string) {
+	c, err := client.NewClientWithOpts()
+	Expect(err).ToNot(HaveOccurred())
+
+	filterArgs := filters.NewArgs()
+	filterArgs.Add("ancestor", imageName)
+	containers, err := c.ContainerList(context.Background(), docker_types.ContainerListOptions{All: true, Filters: filterArgs})
+	Expect(err).ToNot(HaveOccurred())
+
+	for _, container := range containers {
+		err = c.ContainerRemove(context.Background(), container.ID, docker_types.ContainerRemoveOptions{Force: true, RemoveVolumes: true})
+		Expect(err).ToNot(HaveOccurred())
+	}
+}
