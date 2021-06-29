@@ -84,17 +84,17 @@ func getContainerByName(containerName string, c *client.Client) (*docker_types.C
 	return &containers[0], nil
 }
 
-//func removeContainer(imageName string) {
-//	c, err := client.NewClientWithOpts()
-//	Expect(err).ToNot(HaveOccurred())
-//
-//	filterArgs := filters.NewArgs()
-//	filterArgs.Add("ancestor", imageName)
-//	containers, err := c.ContainerList(context.Background(), docker_types.ContainerListOptions{All: true, Filters: filterArgs})
-//	Expect(err).ToNot(HaveOccurred())
-//
-//	for _, container := range containers {
-//		err = c.ContainerRemove(context.Background(), container.ID, docker_types.ContainerRemoveOptions{Force: true, RemoveVolumes: true})
-//		Expect(err).ToNot(HaveOccurred())
-//	}
-//}
+func removeContainer(imageName string) {
+	c, err := client.NewClientWithOpts()
+	Expect(err).ToNot(HaveOccurred())
+
+	filterArgs := filters.NewArgs()
+	filterArgs.Add("ancestor", imageName)
+	containers, err := c.ContainerList(context.Background(), docker_types.ContainerListOptions{All: true, Filters: filterArgs})
+	Expect(err).ToNot(HaveOccurred())
+
+	for _, container := range containers {
+		err = c.ContainerRemove(context.Background(), container.ID, docker_types.ContainerRemoveOptions{Force: true, RemoveVolumes: true})
+		Expect(err).ToNot(HaveOccurred())
+	}
+}

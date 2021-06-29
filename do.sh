@@ -57,6 +57,13 @@ function task_integration_test {
   CONFIG_PATH="$(pwd)/config" ginkgo -r -tags=integration --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
 }
 
+## container-test: will spin up local containers and run container tests
+function task_container_test {
+  task_build_container
+  task_run_db
+
+  CONFIG_PATH="$(pwd)/config" ginkgo -r -tags=container --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
+}
 
 ## test-coverage : generate overall test coverage report and show in browser
 function task_test_coverage {

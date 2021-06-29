@@ -20,16 +20,15 @@ var _ = Describe("Storage", func() {
 	ctx := context.Background()
 	var sqlDB *sql.DB
 	var storage users.Storage
+	var persistenceConfig config.PersistenceConfig
+
+	BeforeSuite(func() {
+		cfg, err := config.BuildConfig("../config/test.json", "", "")
+		Expect(err).ToNot(HaveOccurred())
+		persistenceConfig = cfg.Persistence
+	})
 
 	BeforeEach(func() {
-		persistenceConfig := config.Postgres{
-			Host:       "localhost",
-			Port:       5432,
-			UserName:   "postgres",
-			Password:   "password",
-			DBName:     "golangservice",
-			SSLEnabled: false,
-		}
 		sqlDB, _ = persistence.ConnectPostgres(persistenceConfig)
 		//Expect(err).ToNot(HaveOccurred())
 		storage = users.NewStorage(sqlDB)

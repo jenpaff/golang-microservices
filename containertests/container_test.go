@@ -5,6 +5,7 @@ package containertests
 import (
 	"context"
 	"encoding/json"
+	"github.com/jenpaff/golang-microservices/api"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"io/ioutil"
@@ -45,14 +46,13 @@ var _ = Describe("Golang Service", func() {
 				bodyBytes, err := ioutil.ReadAll(response.Body)
 				Expect(err).ToNot(HaveOccurred())
 
-				healthResponse := health.ServiceInfo{}
+				healthResponse := api.Health{}
 				err = json.Unmarshal(bodyBytes, &healthResponse)
 				Expect(err).ToNot(HaveOccurred())
 
 				By("By having the correct name and status up")
 				Expect(healthResponse.Name).To(Equal("Golang Service"))
-				Expect(healthResponse.Status).To(Equal("up"))
-				Expect(healthResponse.DatabaseAvailable).To(BeTrue())
+				Expect(healthResponse.Status).To(Equal("BLAA"))
 			})
 		})
 	})

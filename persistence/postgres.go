@@ -13,9 +13,9 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
-func ConnectPostgres(config config.Postgres) (*sql.DB, error) {
-	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", config.Host, config.Port, config.UserName, config.DBName, config.Password)
-	if !config.SSLEnabled {
+func ConnectPostgres(config config.PersistenceConfig) (*sql.DB, error) {
+	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", config.DbHost, config.DbPort, config.DbUsername, config.DbName, config.DbPassword)
+	if !config.SslEnabled {
 		pgOptions = pgOptions + " sslmode=disable"
 	}
 
@@ -24,7 +24,7 @@ func ConnectPostgres(config config.Postgres) (*sql.DB, error) {
 		return nil, err
 	}
 
-	log.Infof("PostgreSQL storage: connected to host %s:%d database %s with user %s", config.Host, config.Port, config.DBName, config.UserName)
+	log.Infof("PostgreSQL storage: connected to host %s:%d database %s with user %s", config.DbHost, config.DbPort, config.DbName, config.DbUsername)
 	return db, nil
 }
 

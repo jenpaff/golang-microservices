@@ -7,15 +7,8 @@ import (
 )
 
 func createConnection() (db *sql.DB, err error) {
-	persistenceConfig := config.Postgres{
-		Host:       "localhost",
-		Port:       5432,
-		UserName:   "postgres",
-		Password:   "password",
-		DBName:     "golangservice",
-		SSLEnabled: false,
-	}
-	db, _ = persistence.ConnectPostgres(persistenceConfig)
+	cfg, err := config.BuildConfig("../config/test.json", "", "")
+	db, _ = persistence.ConnectPostgres(cfg.Persistence)
 	if err != nil {
 		return nil, err
 	}

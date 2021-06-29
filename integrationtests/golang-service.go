@@ -34,7 +34,9 @@ type golangService struct {
 }
 
 func NewGolangService() GolangService {
-	application := app.NewApp("8027")
+
+	application, err := app.NewApp("8027", "../config/test.json", "", "")
+	Expect(err).ToNot(HaveOccurred())
 
 	return &golangService{
 		app:     application,

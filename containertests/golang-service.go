@@ -36,7 +36,7 @@ func NewGolangService(imageName string, ctx context.Context) (GolangService, err
 		ExposedPorts: []string{"8027/tcp"},
 		WaitingFor:   wait.ForListeningPort("8027/tcp"),
 		BindMounts: map[string]string{
-			configFilePath + "/container-test.json": "/app/config/config.json",
+			configFilePath + "/test.json": "/app/config/config.json",
 		},
 		SkipReaper: true,
 		Networks:   []string{""},

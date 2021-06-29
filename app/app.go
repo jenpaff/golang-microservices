@@ -16,13 +16,19 @@ import (
 type App struct {
 	server *http.Server
 	port   string
+	cfg    config.Config
 }
 
-func NewApp(port string) *App {
+func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
 	controller := api.NewController()
 	router := api.NewRouter(controller)
 	server := &http.Server{Addr: ":" + port, Handler: router}
-	return &App{server: server, port: port}
+	// TODO: do we need secretspath/env?
+	cfg, err := config.BuildConfig(configPath, secretsPath, secretsEnv)
+	if err != nil {
+		return nil, err
+	}
+	return &App{server: server, port: port, cfg: cfg}, nil
 }
 
 func (a App) Start() error {
@@ -30,17 +36,7 @@ func (a App) Start() error {
 
 	log.Info("Starting...")
 
-	// TODO: read from config file via config service
-	persistenceConfig := config.PersistenceConfig{
-		DbName:     "golangservice",
-		DbHost:     "localhost",
-		DbPort:     5432,
-		DbUsername: "postgres",
-		DbPassword: "password",
-		SslEnabled: false,
-	}
-
-	err := ensureDatabaseConnectivity(ctx, persistenceConfig)
+	err := ensureDatabaseConnectivity(ctx, a.cfg.Persistence)
 	if err != nil {
 		return err
 	}

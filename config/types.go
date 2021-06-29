@@ -1,8 +1,9 @@
 package config
 
 type Config struct {
+	Name           string            `json:"name"`
 	Persistence    PersistenceConfig `json:"persistence"`
-	FeatureToggles FeatureToggles `json:"featuretoggles"`
+	FeatureToggles FeatureToggles    `json:"featuretoggles"`
 }
 
 type FeatureToggles map[string]bool
@@ -24,4 +25,3 @@ type PersistenceConfig struct {
 	DbPassword string `json:"dbPassword"`
 	SslEnabled bool   `json:"sslEnabled"`
 }
-

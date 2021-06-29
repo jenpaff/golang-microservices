@@ -26,17 +26,17 @@ func main() {
 		log.Fatalf("the migrations command expects the port to be a number: %s", os.Args[2])
 	}
 
-	pgConfig := config.Postgres{
-		Host:       os.Args[1],
-		Port:       int(port),
-		DBName:     os.Args[3],
-		SSLEnabled: os.Args[4] == "true",
-		UserName:   os.Args[5],
-		Password:   os.Args[6],
+	dbConfig := config.PersistenceConfig{
+		DbHost:     os.Args[1],
+		DbPort:     int(port),
+		DbName:     os.Args[3],
+		SslEnabled: os.Args[4] == "true",
+		DbUsername: os.Args[5],
+		DbPassword: os.Args[6],
 	}
 
-	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", pgConfig.Host, pgConfig.Port, pgConfig.UserName, pgConfig.DBName, pgConfig.Password)
-	if !pgConfig.SSLEnabled {
+	pgOptions := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", dbConfig.DbHost, dbConfig.DbPort, dbConfig.DbUsername, dbConfig.DbName, dbConfig.DbPassword)
+	if !dbConfig.SslEnabled {
 		pgOptions = pgOptions + " sslmode=disable"
 	}
 
@@ -45,17 +45,17 @@ func main() {
 		log.Fatalf("could not create driver for DB migrations: %s", err.Error())
 	}
 
-	log.Infof("PostgreSQL storage: connected to host %s:%d database %s with user %s", pgConfig.Host, pgConfig.Port, pgConfig.DBName, pgConfig.UserName)
+	log.Infof("PostgreSQL storage: connected to host %s:%d database %s with user %s", dbConfig.DbHost, dbConfig.DbPort, dbConfig.DbName, dbConfig.DbUsername)
 
 	driver, err := postgres.WithInstance(db, &postgres.Config{
-		DatabaseName: pgConfig.DBName,
+		DatabaseName: dbConfig.DbName,
 	})
 	if err != nil {
 		log.Fatalf("could not create driver for DB migrations: %s", err.Error())
 	}
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://migrations",
-		pgConfig.DBName, driver)
+		dbConfig.DbName, driver)
 	if err != nil {
 		log.Fatalf("could not init DB migrations: %s", err.Error())
 	}

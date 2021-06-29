@@ -8,11 +8,12 @@ require (
 	github.com/emicklei/go-restful/v3 v3.5.1
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-playground/ansi v2.1.0+incompatible // indirect
-	github.com/go-playground/errors v3.3.0+incompatible // indirect
+	github.com/go-playground/errors v3.3.0+incompatible
 	github.com/go-playground/log v6.3.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang/mock v1.4.4
 	github.com/google/uuid v1.2.0
+	github.com/imdario/mergo v0.3.11
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/lib/pq v1.8.0
 	github.com/onsi/ginkgo v1.12.0

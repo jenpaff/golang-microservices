@@ -1,0 +1,14 @@
+{
+  "environment": "test",
+  "persistence": {
+    "dbName": "golangservice",
+    "dbHost": "localhost",
+    "dbPort": 5432,
+    "dbUsername": "postgres",
+    "dbPassword": "password",
+    "sslEnabled": false
+  },
+  "featureToggles": {
+    "enableNewFeature": true
+  }
+}
