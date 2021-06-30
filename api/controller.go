@@ -6,10 +6,10 @@ import (
 )
 
 type Controller struct {
-	cfg         config.Config
+	Cfg         config.Config
 	userService users.Service
 }
 
-func NewController(cfg config.Config) *Controller {
-	return &Controller{cfg: cfg}
+func NewController(cfg config.Config, userService users.Service) *Controller {
+	return &Controller{Cfg: cfg, userService: userService}
 }

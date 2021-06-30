@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jenpaff/golang-microservices/common"
+	"github.com/jenpaff/golang-microservices/errors"
 )
 
 type Service interface {
@@ -21,7 +22,7 @@ func NewService(storage Storage) Service {
 func (s service) GetUser(ctx context.Context, userName string) (*common.User, error) {
 	user, err := s.storage.FindByName(ctx, userName)
 	if err != nil {
-		return nil, fmt.Errorf("could not find user with userName %s: %w", userName, err)
+		return nil, fmt.Errorf("could not find user with userName %s: %w", userName, errors.UserNotFound)
 	}
 	return user, nil
 }

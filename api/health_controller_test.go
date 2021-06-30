@@ -14,12 +14,15 @@ import (
 
 var _ = Describe("Health Controller", func() {
 
+	var controller *api.Controller
+
+	BeforeSuite(func() {
+		controller = api.NewController(config.Config{}, nil)
+	})
+
 	Context("service is up", func() {
 
 		It("calling /health returns status up", func() {
-			controller := api.NewController(config.Config{
-				Name: "Golang Test Service",
-			})
 			router := api.NewRouter(controller)
 			rr := httptest.NewRecorder()
 			req, _ := http.NewRequest(http.MethodGet, "/health", nil)

@@ -7,6 +7,7 @@ import (
 	"github.com/jenpaff/golang-microservices/api"
 	"github.com/jenpaff/golang-microservices/config"
 	"github.com/jenpaff/golang-microservices/persistence"
+	"github.com/jenpaff/golang-microservices/users"
 	"golang.org/x/sync/errgroup"
 	"net/http"
 	"os"
@@ -14,9 +15,9 @@ import (
 )
 
 type App struct {
-	server *http.Server
-	port   string
-	cfg    config.Config
+	server     *http.Server
+	port       string
+	controller *api.Controller
 }
 
 func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
@@ -24,10 +25,18 @@ func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
 	if err != nil {
 		return nil, err
 	}
-	controller := api.NewController(cfg)
+	db, err := persistence.ConnectPostgres(cfg.Persistence)
+	if err != nil {
+		log.Errorf("could not establish database connection to %s:%d: %s", cfg.Persistence.DbHost, cfg.Persistence.DbPort, err.Error())
+	}
+
+	userPersistence := users.NewStorage(db)
+	userService := users.NewService(userPersistence)
+
+	controller := api.NewController(cfg, userService)
 	router := api.NewRouter(controller)
 	server := &http.Server{Addr: ":" + port, Handler: router}
-	return &App{server: server, port: port, cfg: cfg}, nil
+	return &App{server: server, port: port, controller: controller}, nil
 }
 
 func (a App) Start() error {
@@ -35,7 +44,7 @@ func (a App) Start() error {
 
 	log.Info("Starting...")
 
-	err := ensureDatabaseConnectivity(ctx, a.cfg.Persistence)
+	err := ensureDatabaseConnectivity(ctx, a.controller.Cfg.Persistence)
 	if err != nil {
 		return err
 	}
