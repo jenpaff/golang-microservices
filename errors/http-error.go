@@ -21,6 +21,7 @@ var InternalServerError = newHttpError("INTERNAL_SERVER_ERROR", http.StatusInter
 var BadRequest = newHttpError("BAD_REQUEST", http.StatusBadRequest)
 var UserNotFound = newHttpError("USER_NOT_FOUND", http.StatusNotFound)
 var UserClientError = newHttpError("USER_CLIENT_ERROR", http.StatusInternalServerError)
+var DatabaseError = newHttpError("DATABASE_ERROR", http.StatusInternalServerError)
 
 func newHttpError(errorID string, status int) *httpError {
 	error := &httpError{
