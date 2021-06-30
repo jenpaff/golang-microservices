@@ -14,7 +14,7 @@ services:
     volumes:
       - ./config/local-container.json:/service/config/config.json
     ports:
-      - "8027:8027"
+      - "12345:12345"
     container_name: golang-microservices
     networks:
       - goservice

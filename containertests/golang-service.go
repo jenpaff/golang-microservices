@@ -33,13 +33,13 @@ func NewGolangService(imageName string, ctx context.Context) (GolangService, err
 
 	req := testcontainers.ContainerRequest{
 		Image:        imageName,
-		ExposedPorts: []string{"8027/tcp"},
-		WaitingFor:   wait.ForListeningPort("8027/tcp"),
+		ExposedPorts: []string{"12345/tcp"},
+		WaitingFor:   wait.ForListeningPort("12345/tcp"),
 		BindMounts: map[string]string{
 			configFilePath + "/local-container.json": "/service/config/config.json",
 		},
 		SkipReaper: true,
-		Networks:   []string{""},
+		Networks:   []string{"go-service"},
 	}
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
@@ -60,7 +60,7 @@ func (g golangService) baseUrl() string {
 	ip, err := g.testContainer.Host(g.ctx)
 	Expect(err).ToNot(HaveOccurred())
 
-	port, err := g.testContainer.MappedPort(g.ctx, "8027")
+	port, err := g.testContainer.MappedPort(g.ctx, "12345")
 	Expect(err).ToNot(HaveOccurred())
 
 	return fmt.Sprintf("%s:%s", ip, port.Port())

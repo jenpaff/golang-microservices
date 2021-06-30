@@ -35,7 +35,7 @@ type golangService struct {
 
 func NewGolangService() GolangService {
 
-	application, err := app.NewApp("8027", "../config/test.json", "", "")
+	application, err := app.NewApp("12345", "../config/test.json", "", "")
 	Expect(err).ToNot(HaveOccurred())
 
 	return &golangService{
@@ -45,7 +45,7 @@ func NewGolangService() GolangService {
 }
 
 func (p golangService) baseUrl() string {
-	return fmt.Sprintf("localhost:%s", "8027")
+	return fmt.Sprintf("localhost:%s", "12345")
 }
 
 func (p golangService) Start() {

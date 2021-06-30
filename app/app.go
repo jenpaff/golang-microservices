@@ -84,6 +84,7 @@ func ensureDatabaseConnectivity(ctx context.Context, cfg config.PersistenceConfi
 		if err != nil {
 			return fmt.Errorf("could not initialise database: %s", err.Error())
 		}
+		log.Infof("Database connection successful")
 		return nil
 	})
 

@@ -22,7 +22,7 @@ func main() {
 		logErrorAndExit(fmt.Errorf("could not fetch necessary paths: %s", err))
 	}
 
-	app, err := NewApp("8027", configPath, secretsPath, secretsEnv)
+	app, err := NewApp("12345", configPath, secretsPath, secretsEnv)
 	if err != nil {
 		logErrorAndExit(fmt.Errorf("could not initialise app: %s", err.Error()))
 	}

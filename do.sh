@@ -129,6 +129,7 @@ function task_run_db {
         -e POSTGRES_PASSWORD="password" \
         -e POSTGRES_HOST_AUTH_METHOD="trust" \
         --name="go-postgres" \
+        --network="go-service" \
         -p 5432:5432 \
         -m 128m \
         postgres:11
