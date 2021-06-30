@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-type User struct {
-	Name string `json:"name"`
-}
-
 func (c *Controller) GetUser(req *restful.Request, resp *restful.Response) error {
 
 	log.Info("user endpoint was invoked")

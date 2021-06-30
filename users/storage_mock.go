@@ -8,7 +8,6 @@ import (
 	context "context"
 	gomock "github.com/golang/mock/gomock"
 	common "github.com/jenpaff/golang-microservices/common"
-	models "github.com/jenpaff/golang-microservices/persistence/models"
 	reflect "reflect"
 )
 
@@ -50,10 +49,10 @@ func (mr *MockStorageMockRecorder) Add(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // FindByName mocks base method
-func (m *MockStorage) FindByName(arg0 context.Context, arg1 string) (*models.User, error) {
+func (m *MockStorage) FindByName(arg0 context.Context, arg1 string) (*common.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByName", arg0, arg1)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*common.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

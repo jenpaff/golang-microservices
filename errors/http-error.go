@@ -20,6 +20,7 @@ var httpErrors = make(map[error]*httpError)
 var InternalServerError = newHttpError("INTERNAL_SERVER_ERROR", http.StatusInternalServerError)
 var BadRequest = newHttpError("BAD_REQUEST", http.StatusBadRequest)
 var UserNotFound = newHttpError("USER_NOT_FOUND", http.StatusNotFound)
+var UserClientError = newHttpError("USER_CLIENT_ERROR", http.StatusInternalServerError)
 
 func newHttpError(errorID string, status int) *httpError {
 	error := &httpError{

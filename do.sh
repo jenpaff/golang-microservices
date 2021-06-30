@@ -11,6 +11,9 @@ image_name='golang-microservices'
 container_name=${image_name}
 local_port='12345'
 
+pact_version="1.81.0"
+export PATH=$PATH:$HOME/pact/bin
+default_goos="$(go env GOOS)"
 
 ## build: build the go binary for our webservice
 function task_build {
@@ -31,17 +34,29 @@ function task_lint() {
         popd > /dev/null
     fi
 
-    golangci-lint run
+    golangci-lint run --build-tags "unit integration container"
 }
 
 ## test : run all tests
 function task_test {
+    pacts_dir="./contracttests/pacts"
     task_lint
     task_generate_all_mocks
 
     tags=${1:-"unit"}
 
     assert_ginkgo
+
+    pactPath="${HOME}/pact/bin"
+    if [[ ! -d ${pactPath} ]]; then
+        echo "Tests require Pact CLI but it's not installed. Installing Pact CLI now...";
+        task_install_pact_cli;
+    fi
+
+    # as we have multiple pact test and let each of these merge into one file this is the only
+    # place to ensure we're starting with a blank slate
+    rm -rf $pacts_dir
+    mkdir $pacts_dir
 
     echo "Starting tests..."
 
@@ -177,6 +192,34 @@ function task_generate_all_mocks {
     fi
 
     go generate ./...
+}
+
+## install-pact-cli : installs pact cli into local user directory
+function task_install_pact_cli {
+    cd "$HOME"
+    echo "Installing pact cli into $(pwd -P)/pact"
+    case "$default_goos" in
+    "windows")
+        curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v${pact_version}/pact-${pact_version}-win32.zip
+        unzip -o pact-${pact_version}-win32.zip
+        rm pact-${pact_version}-win32.zip
+        ;;
+    "linux")
+        curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v${pact_version}/pact-${pact_version}-linux-x86_64.tar.gz
+        tar xzf pact-${pact_version}-linux-x86_64.tar.gz
+        rm pact-${pact_version}-linux-x86_64.tar.gz
+        ;;
+    "darwin")
+        curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v${pact_version}/pact-${pact_version}-osx.tar.gz
+        tar xzf pact-${pact_version}-osx.tar.gz
+        rm pact-${pact_version}-osx.tar.gz
+        ;;
+    *)
+        echo "no pact cli dist found for your os: $default_goos"
+        ;;
+    esac
+
+    cd -
 }
 
 # print out an auto-generated "man page" for this script

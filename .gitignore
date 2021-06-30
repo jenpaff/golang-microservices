@@ -7,8 +7,12 @@ webservice
 migration
 
 # test coverage
-.coverprofile
+*.coverprofile
 coverage
 
 # database
 pgdata
+
+#pact
+contracttests/consumer/logs/
+contracttests/pacts/

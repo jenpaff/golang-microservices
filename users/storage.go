@@ -13,7 +13,7 @@ import (
 
 type Storage interface {
 	Add(ctx context.Context, user common.User) error
-	FindByName(ctx context.Context, userName string) (*models.User, error)
+	FindByName(ctx context.Context, userName string) (*common.User, error)
 }
 
 type storage struct {
@@ -28,19 +28,19 @@ func (p *storage) Add(ctx context.Context, user common.User) error {
 	newUser := &models.User{
 		Username:    user.UserName,
 		Email:       null.StringFrom(user.Email),
-		PhoneNumber: null.StringFrom(user.Telephone),
+		PhoneNumber: null.StringFrom(user.PhoneNumber),
 	}
 	return newUser.Insert(ctx, p.db, boil.Infer())
 }
 
-func (p *storage) FindByName(ctx context.Context, userName string) (*models.User, error) {
+func (p *storage) FindByName(ctx context.Context, userName string) (*common.User, error) {
 	returnedUser, err := models.Users(models.UserWhere.Username.EQ(userName)).One(ctx, p.db)
 	if err != nil {
 		return nil, err
 	}
-	return &models.User{
-		Username:    returnedUser.Username,
-		PhoneNumber: returnedUser.PhoneNumber,
-		Email:       returnedUser.Email,
+	return &common.User{
+		UserName:    returnedUser.Username,
+		PhoneNumber: returnedUser.PhoneNumber.String,
+		Email:       returnedUser.Email.String,
 	}, nil
 }

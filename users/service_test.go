@@ -6,13 +6,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/golang/mock/gomock"
+	"github.com/jenpaff/golang-microservices/common"
 	"github.com/jenpaff/golang-microservices/errors"
-	"github.com/jenpaff/golang-microservices/persistence/models"
 	test_helper "github.com/jenpaff/golang-microservices/test-helper"
 	"github.com/jenpaff/golang-microservices/users"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/volatiletech/null/v8"
 )
 
 var _ = Describe("Service", func() {
@@ -44,18 +43,17 @@ var _ = Describe("Service", func() {
 		It("will successfully retrieve a user by username", func() {
 
 			email := "test@test.com"
-			phoneNumber := "test@test.com"
-			mockStorage.EXPECT().FindByName(gomock.Any(), "test").Return(&models.User{
-				ID:          123,
-				Username:    username,
-				Email:       null.StringFrom(email),
-				PhoneNumber: null.StringFrom(phoneNumber),
+			phoneNumber := "12345"
+			mockStorage.EXPECT().FindByName(gomock.Any(), "test").Return(&common.User{
+				UserName:    username,
+				Email:       email,
+				PhoneNumber: phoneNumber,
 			}, nil)
 
 			returnedUser, err := userService.GetUser(ctx, username)
 
 			Expect(err).ToNot(HaveOccurred())
-			Expect(returnedUser.Username).To(Equal(username))
+			Expect(returnedUser.UserName).To(Equal(username))
 		})
 
 	})

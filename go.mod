@@ -12,12 +12,12 @@ require (
 	github.com/go-playground/log v6.3.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang/mock v1.4.4
-	github.com/google/uuid v1.2.0
 	github.com/imdario/mergo v0.3.11
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/lib/pq v1.8.0
 	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
+	github.com/pact-foundation/pact-go v1.4.3
 	github.com/testcontainers/testcontainers-go v0.11.0
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.5.0
