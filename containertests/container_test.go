@@ -55,7 +55,7 @@ var _ = Describe("Golang Service", func() {
 
 				By("By having the correct name and status up")
 				Expect(healthResponse.Name).To(Equal("Golang Service"))
-				Expect(healthResponse.Status).To(Equal("BLAA"))
+				Expect(healthResponse.Status).To(Equal("up"))
 			})
 		})
 	})

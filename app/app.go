@@ -20,13 +20,13 @@ type App struct {
 }
 
 func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
-	controller := api.NewController()
-	router := api.NewRouter(controller)
-	server := &http.Server{Addr: ":" + port, Handler: router}
 	cfg, err := config.BuildConfig(configPath, secretsPath, secretsEnv)
 	if err != nil {
 		return nil, err
 	}
+	controller := api.NewController(cfg)
+	router := api.NewRouter(controller)
+	server := &http.Server{Addr: ":" + port, Handler: router}
 	return &App{server: server, port: port, cfg: cfg}, nil
 }
 

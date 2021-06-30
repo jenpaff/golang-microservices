@@ -10,6 +10,6 @@ type Controller struct {
 	userService users.Service
 }
 
-func NewController() *Controller {
-	return &Controller{}
+func NewController(cfg config.Config) *Controller {
+	return &Controller{cfg: cfg}
 }

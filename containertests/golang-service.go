@@ -39,7 +39,7 @@ func NewGolangService(imageName string, ctx context.Context) (GolangService, err
 			configFilePath + "/local-container.json": "/service/config/config.json",
 		},
 		SkipReaper: true,
-		Networks:   []string{"go-service"},
+		Networks:   []string{"goservice"},
 	}
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{

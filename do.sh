@@ -105,8 +105,8 @@ function task_build_container {
 ## run-container: run our webservice in a Docker container
 function task_run_container {
   green "Removing old docker container"
-  docker rm -f golang-microservices
-  docker rm -f go-postgres
+  docker rm -f golang-microservices  2>/dev/null || true
+  docker rm -f go-postgres  2>/dev/null || true
   task_build_container
 
   docker-compose up -d
@@ -117,11 +117,11 @@ function task_run_container {
 
 ## run-db : start local postgres database
 function task_run_db {
-    docker network create go-service 2>/dev/null || true
+    docker network create goservice 2>/dev/null || true
     green "Removing old database"
-    docker rm -f go-postgres
+    docker rm -f go-postgres 2>/dev/null || true
     green "Pulling image"
-    docker pull postgres:11
+    docker pull postgres:11 2>/dev/null || true
 
     docker run -d \
         -e POSTGRES_DB="golangservice" \
@@ -129,7 +129,7 @@ function task_run_db {
         -e POSTGRES_PASSWORD="password" \
         -e POSTGRES_HOST_AUTH_METHOD="trust" \
         --name="go-postgres" \
-        --network="go-service" \
+        --network "goservice" \
         -p 5432:5432 \
         -m 128m \
         postgres:11

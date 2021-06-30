@@ -7,6 +7,8 @@ import (
 	"github.com/go-playground/log/handlers/console"
 	. "github.com/jenpaff/golang-microservices/app"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 const (
@@ -29,9 +31,16 @@ func main() {
 
 	err = app.Start()
 	if err != nil {
-		log.Fatalf(err.Error())
-		os.Exit(1)
+		logErrorAndExit(err)
 	}
+
+	// essential to make the main wait for a stop signal
+	// otherwise we exit the main function and also the go-routine in app.Start() will be stopped
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+	<-stop
+
+	app.Stop()
 }
 
 func initLogging() {
