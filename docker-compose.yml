@@ -8,12 +8,14 @@ networks:
 services:
   golang-microservice:
     # TODO add a version tag
-    image: 'golang-microservice'
+    image: 'golang-microservices'
     depends_on:
       - postgres
+    volumes:
+      - ./config/local-container.json:/service/config/config.json
     ports:
       - "8027:8027"
-    container_name: golang-microservice
+    container_name: golang-microservices
     networks:
       - goservice
 

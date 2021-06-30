@@ -36,7 +36,7 @@ func NewGolangService(imageName string, ctx context.Context) (GolangService, err
 		ExposedPorts: []string{"8027/tcp"},
 		WaitingFor:   wait.ForListeningPort("8027/tcp"),
 		BindMounts: map[string]string{
-			configFilePath + "/test.json": "/app/config/config.json",
+			configFilePath + "/local-container.json": "/service/config/config.json",
 		},
 		SkipReaper: true,
 		Networks:   []string{""},
@@ -56,18 +56,18 @@ func NewGolangService(imageName string, ctx context.Context) (GolangService, err
 	}, nil
 }
 
-func (p golangService) baseUrl() string {
-	ip, err := p.testContainer.Host(p.ctx)
+func (g golangService) baseUrl() string {
+	ip, err := g.testContainer.Host(g.ctx)
 	Expect(err).ToNot(HaveOccurred())
 
-	port, err := p.testContainer.MappedPort(p.ctx, "8027")
+	port, err := g.testContainer.MappedPort(g.ctx, "8027")
 	Expect(err).ToNot(HaveOccurred())
 
 	return fmt.Sprintf("%s:%s", ip, port.Port())
 }
 
-func (p golangService) Start() {
-	containerName, err := p.testContainer.Name(p.ctx)
+func (g golangService) Start() {
+	containerName, err := g.testContainer.Name(g.ctx)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = startContainer(containerName)
@@ -75,8 +75,8 @@ func (p golangService) Start() {
 	waitForContainerRunning(containerName, DefaultTimeout)
 }
 
-func (p golangService) Stop() {
-	containerName, err := p.testContainer.Name(p.ctx)
+func (g golangService) Stop() {
+	containerName, err := g.testContainer.Name(g.ctx)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = stopContainer(containerName)
@@ -84,8 +84,8 @@ func (p golangService) Stop() {
 	waitForContainerStopped(containerName, DefaultTimeout)
 }
 
-func (p golangService) Get(url string, headers map[string]string) *http.Response {
-	req, _ := http.NewRequest("GET", fmt.Sprintf("http://%s%s", p.baseUrl(), url), nil)
+func (g golangService) Get(url string, headers map[string]string) *http.Response {
+	req, _ := http.NewRequest("GET", fmt.Sprintf("http://%s%s", g.baseUrl(), url), nil)
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
@@ -95,8 +95,8 @@ func (p golangService) Get(url string, headers map[string]string) *http.Response
 	return resp
 }
 
-func (p golangService) Post(url string, headers map[string]string, body io.Reader) *http.Response {
-	req, _ := http.NewRequest("POST", fmt.Sprintf("http://%s%s", p.baseUrl(), url), body)
+func (g golangService) Post(url string, headers map[string]string, body io.Reader) *http.Response {
+	req, _ := http.NewRequest("POST", fmt.Sprintf("http://%s%s", g.baseUrl(), url), body)
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
@@ -105,8 +105,8 @@ func (p golangService) Post(url string, headers map[string]string, body io.Reade
 	return resp
 }
 
-func (p golangService) Put(url string, headers map[string]string, body io.Reader) *http.Response {
-	req, _ := http.NewRequest("PUT", fmt.Sprintf("http://%s%s", p.baseUrl(), url), body)
+func (g golangService) Put(url string, headers map[string]string, body io.Reader) *http.Response {
+	req, _ := http.NewRequest("PUT", fmt.Sprintf("http://%s%s", g.baseUrl(), url), body)
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}

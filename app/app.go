@@ -23,7 +23,6 @@ func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
 	controller := api.NewController()
 	router := api.NewRouter(controller)
 	server := &http.Server{Addr: ":" + port, Handler: router}
-	// TODO: do we need secretspath/env?
 	cfg, err := config.BuildConfig(configPath, secretsPath, secretsEnv)
 	if err != nil {
 		return nil, err

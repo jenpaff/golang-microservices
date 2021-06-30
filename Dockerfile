@@ -37,7 +37,7 @@ ARG GROUP=service
 
 RUN addgroup -g $GID -S $GROUP && \
     adduser -u $UID -S $USER -G $GROUP && \
-    mkdir -p /service && \
+    mkdir -p /service/config /service/secrets && \
     chown -R $USER:$GROUP /service
 
 WORKDIR /service
@@ -45,4 +45,4 @@ WORKDIR /service
 USER $USER
 COPY --from=builder /dist/webservice .
 
-CMD ./webservice
+CMD ./webservice "/service/config/config.json" "/service/secrets"

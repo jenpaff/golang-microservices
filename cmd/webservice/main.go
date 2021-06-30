@@ -23,7 +23,9 @@ func main() {
 	}
 
 	app, err := NewApp("8027", configPath, secretsPath, secretsEnv)
-	logErrorAndExit(fmt.Errorf("could not initialise app: %s", err))
+	if err != nil {
+		logErrorAndExit(fmt.Errorf("could not initialise app: %s", err.Error()))
+	}
 
 	err = app.Start()
 	if err != nil {

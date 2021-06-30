@@ -17,20 +17,20 @@ import (
 
 var _ = Describe("Golang Service", func() {
 
-	imageName := "golang-service:local-dev-version"
-	var p GolangService
+	imageName := "golang-microservices"
+	var g GolangService
 
 	BeforeSuite(func() {
 		var err error
-		p, err = NewGolangService(imageName, context.Background())
+		g, err = NewGolangService(imageName, context.Background())
 		Expect(err).ToNot(HaveOccurred())
-		p.Start()
+		g.Start()
 	})
 
 	AfterSuite(func() {
-		p.Stop()
+		g.Stop()
 		removeContainer(imageName)
-		removeContainer("golang-service")
+		removeContainer("golang-microservices")
 	})
 
 	AfterEach(func() {
@@ -42,7 +42,7 @@ var _ = Describe("Golang Service", func() {
 		Context("when it is started", func() {
 			It("should have health endpoint return status ok", func() {
 				By("By returning a 200 status code")
-				response := p.Get("/health", map[string]string{})
+				response := g.Get("/health", map[string]string{})
 				Expect(response.StatusCode).To(Equal(http.StatusOK))
 
 				By("By having a valid json body")
