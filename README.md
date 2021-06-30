@@ -12,15 +12,15 @@ List of topics that we want to cover within the tutorials / blog posts
 
 ### Golang Coding
 
-- [ ] architecture: router - controller - services - client - model - storage - helpers / commons
-- [ ] simple HTTP router / controller
-- [ ] configuration (default config & override from json & read from environment)
-- [ ] error handling (mapping errors to HTTP status codes)
+- [ ] architecture: router - controller - services - client - model - storage - helpers / commons => at the end! 
+- [ ] simple HTTP router / controller / go-restful 
+- [ ] configuration (default config & override from json & read from environment) => Jen
+- [ ] error handling (mapping errors to HTTP status codes) => Michael
 - [ ] providing batch commands in separate binaries (DB migration)
-- [ ] validation (JSON schema)
+- [ ] validation (JSON schema) => Jen
 - [x] ORM (sqlboiler...)
-- [ ] Feature Toggles
-- [ ] authentication & authorization (e.g. use GitHub SSO)
+- [ ] Feature Toggles => Jen
+- [ ] authentication & authorization (e.g. use GitHub SSO) => we don't need the codebase for this
 - [ ] different types: requestTypes, domain model, storage types
 - [ ] Swagger documentation
 
@@ -30,8 +30,8 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] HTTP integration tests (all endpoints)
 - [ ] Ginkgo (parameterized tests)
 - [ ] using / generating mocks (gomock, go generate tags, `./do` script task...)
-- [ ] Contract Tests (consumer tests, provider tests, pact broker, managing pacts in pipeline)
-- [ ] Test Coverage (check out ginkgo test coverage - how to check integration & contract tests)
+- [ ] Contract Tests (consumer tests, provider tests, pact broker, managing pacts in pipeline) => Amrei
+- [ ] Test Coverage (check out ginkgo test coverage - how to check integration & contract tests)  => Michael
 
 ### Build & CI
 

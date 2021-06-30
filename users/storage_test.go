@@ -46,8 +46,8 @@ var _ = Describe("Storage", func() {
 		storedUser, err := storage.FindByName(ctx, name)
 		Expect(err).ToNot(HaveOccurred())
 		Expect(storedUser.UserName).To(Equal(user.Username))
-		Expect(storedUser.Email).To(Equal(user.Email))
-		Expect(storedUser.PhoneNumber).To(Equal(user.PhoneNumber))
+		Expect(storedUser.Email).To(Equal(user.Email.String))
+		Expect(storedUser.PhoneNumber).To(Equal(user.PhoneNumber.String))
 	})
 
 })
