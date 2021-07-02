@@ -1,11 +1,11 @@
 {
-  "environment": "local",
+  "environment": "dev",
   "persistence": {
-    "dbName": "golangservice",
+    "dbName": "{{ .db_name }}",
     "dbHost": "go-postgres",
     "dbPort": 5432,
-    "dbUsername": "postgres",
-    "dbPassword": "password",
+    "dbUsername": "{{ .db_user }}",
+    "dbPassword": "{{ .db_password }}",
     "sslEnabled": false
   },
   "featureToggles": {

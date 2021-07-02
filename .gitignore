@@ -10,6 +10,9 @@ migration
 *.coverprofile
 coverage
 
+#config
+local-temp.json
+
 # database
 pgdata
 

@@ -80,6 +80,17 @@ function task_container_test {
   CONFIG_PATH="$(pwd)/config" ginkgo -r -tags=container --randomizeAllSpecs --randomizeSuites --trace --progress -keepGoing ./...
 }
 
+## generate-local-config: injects secrets in a (temporary) local config file (.gitignored)
+function task_generate_local_config {
+    echo "generating local config"
+
+    # usually we would fetch the secret from our vault
+    test_secret="password"
+
+    cat ./config/local.json | \
+    jq '.persistence.dbPassword="'$test_secret'"' > ./config/local-temp.json
+}
+
 ## test-coverage : generate overall test coverage report and show in browser
 function task_test_coverage {
   # our task_test creates a .coverprofile in each package
@@ -111,6 +122,7 @@ function task_test_coverage {
 function task_build_container {
   green "Generating models"
   task_generate_db_models
+  task_generate_local_config
   green "Start building Docker image..."
   docker image rm -f ${image_name}
   docker build --no-cache -t ${image_name} .
