@@ -8,6 +8,7 @@ import (
 	"github.com/jenpaff/golang-microservices/common"
 	"github.com/jenpaff/golang-microservices/errors"
 	"github.com/jenpaff/golang-microservices/featuretoggles"
+	"github.com/jenpaff/golang-microservices/validation"
 	"io/ioutil"
 	"strings"
 )
@@ -49,6 +50,11 @@ func (c *Controller) CreateUser(req *restful.Request, resp *restful.Response) er
 	err = json.Unmarshal(bytes, &creationRequest)
 	if err != nil {
 		return fmt.Errorf("could not unmarshal the user request: %w", err)
+	}
+
+	err = c.validator.Struct(creationRequest)
+	if err != nil {
+		return validation.GetValidationError(err)
 	}
 
 	var createdUser *common.User

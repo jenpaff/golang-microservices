@@ -11,6 +11,7 @@ import (
 	custom_errors "github.com/jenpaff/golang-microservices/errors"
 	test_helper "github.com/jenpaff/golang-microservices/test-helper"
 	"github.com/jenpaff/golang-microservices/users"
+	"github.com/jenpaff/golang-microservices/validation"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"net/http"
@@ -27,7 +28,8 @@ var _ = Describe("UserController", func() {
 	BeforeEach(func() {
 		mockController = gomock.NewController(test_helper.GinkgoTestReporter{})
 		userServiceMock = users.NewMockService(mockController)
-		controller = api.NewController(config.Config{}, userServiceMock)
+		validator, _ := validation.NewValidate()
+		controller = api.NewController(config.Config{}, userServiceMock, validator)
 		router = api.NewRouter(controller)
 	})
 

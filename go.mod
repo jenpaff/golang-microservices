@@ -5,11 +5,11 @@ go 1.16
 require (
 	github.com/docker/docker v20.10.6+incompatible
 	github.com/emicklei/go-restful v2.15.0+incompatible
-	github.com/emicklei/go-restful/v3 v3.5.1
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-playground/ansi v2.1.0+incompatible // indirect
 	github.com/go-playground/errors v3.3.0+incompatible
 	github.com/go-playground/log v6.3.0+incompatible
+	github.com/go-playground/validator/v10 v10.6.1
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang/mock v1.4.4
 	github.com/imdario/mergo v0.3.11

@@ -8,6 +8,7 @@ import (
 	"github.com/jenpaff/golang-microservices/config"
 	"github.com/jenpaff/golang-microservices/persistence"
 	"github.com/jenpaff/golang-microservices/users"
+	"github.com/jenpaff/golang-microservices/validation"
 	"golang.org/x/sync/errgroup"
 	"net/http"
 	"os"
@@ -28,12 +29,18 @@ func NewApp(port, configPath, secretsPath, secretsEnv string) (*App, error) {
 	db, err := persistence.ConnectPostgres(cfg.Persistence)
 	if err != nil {
 		log.Errorf("could not establish database connection to %s:%d: %s", cfg.Persistence.DbHost, cfg.Persistence.DbPort, err.Error())
+		return nil, err
 	}
 
 	userPersistence := users.NewStorage(db)
 	userService := users.NewService(userPersistence)
 
-	controller := api.NewController(cfg, userService)
+	validator, err := validation.NewValidate()
+	if err != nil {
+		return nil, err
+	}
+
+	controller := api.NewController(cfg, userService, validator)
 	router := api.NewRouter(controller)
 	server := &http.Server{Addr: ":" + port, Handler: router}
 	return &App{server: server, port: port, controller: controller}, nil

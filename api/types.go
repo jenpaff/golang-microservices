@@ -1,7 +1,7 @@
 package api
 
 type UserCreationRequest struct {
-	UserName    string `json:"name"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phone_number"`
+	UserName    string `json:"name" validate:"notBlank,validRegexInput"`
+	Email       string `json:"email" validate:"notBlank"`
+	PhoneNumber string `json:"phone_number" validate:"notBlank"`
 }

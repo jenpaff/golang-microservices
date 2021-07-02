@@ -17,7 +17,7 @@ var _ = Describe("Health Controller", func() {
 	var controller *api.Controller
 
 	BeforeSuite(func() {
-		controller = api.NewController(config.Config{}, nil)
+		controller = api.NewController(config.Config{}, nil, nil)
 	})
 
 	Context("service is up", func() {
