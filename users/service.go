@@ -1,3 +1,5 @@
+//go:generate mockgen -destination=service_mock.go -package=users github.com/jenpaff/golang-microservices/users Service
+
 package users
 
 import (
@@ -7,6 +9,7 @@ import (
 
 type Service interface {
 	GetUser(ctx context.Context, userName string) (*common.User, error)
+	CreateUser(ctx context.Context, userName, email, phoneNumber string) (*common.User, error)
 }
 
 type service struct {
@@ -19,6 +22,15 @@ func NewService(storage Storage) Service {
 
 func (s service) GetUser(ctx context.Context, userName string) (*common.User, error) {
 	user, err := s.storage.FindByName(ctx, userName)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (s service) CreateUser(ctx context.Context, userName, email, phoneNumber string) (*common.User, error) {
+	// TODO: set uuid here
+	user, err := s.storage.Create(ctx, userName, email, phoneNumber)
 	if err != nil {
 		return nil, err
 	}

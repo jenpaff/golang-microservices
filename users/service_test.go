@@ -58,4 +58,38 @@ var _ = Describe("Service", func() {
 
 	})
 
+	Context("Create user", func() {
+
+		It("will return error if user can not be found", func() {
+
+			username := "test"
+			email := "test@test.com"
+			phone := "1234"
+
+			mockStorage.EXPECT().Create(gomock.Any(), username, "test@test.com", "1234").Return(nil, fmt.Errorf("error storing user %w", errors.DatabaseError))
+
+			_, err := userService.CreateUser(ctx, username, email, phone)
+
+			Expect(err).To(HaveOccurred())
+		})
+
+		It("will successfully create a user", func() {
+
+			username := "test"
+			email := "test@test.com"
+			phone := "1234"
+
+			mockStorage.EXPECT().Create(gomock.Any(), username, email, phone).Return(&common.User{
+				UserName:    username,
+				Email:       email,
+				PhoneNumber: phone,
+			}, nil)
+
+			returnedUser, err := userService.CreateUser(ctx, username, email, phone)
+
+			Expect(err).ToNot(HaveOccurred())
+			Expect(returnedUser.UserName).To(Equal(username))
+		})
+
+	})
 })

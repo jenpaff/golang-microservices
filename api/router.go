@@ -27,6 +27,11 @@ func newService(controller *Controller) *restful.WebService {
 			To(errors.ErrorHandler(controller.GetUser)).
 			Produces(restful.MIME_JSON).
 			Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
+	ws.Route(
+		ws.POST("/users").
+			To(errors.ErrorHandler(controller.CreateUser)).
+			Produces(restful.MIME_JSON).
+			Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
 	return ws
 }
 

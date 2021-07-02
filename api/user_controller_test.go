@@ -1,6 +1,7 @@
 package api_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/golang/mock/gomock"
@@ -39,7 +40,9 @@ var _ = Describe("UserController", func() {
 		//TODO: there seems to be a bug with our error handling
 		PIt("returns an error when user does not exist", func() {
 
-			userServiceMock.EXPECT().GetUser(gomock.Any(), "invalid-user").Return(nil, fmt.Errorf("error happened: %w", custom_errors.UserNotFound))
+			errorMessage := fmt.Errorf("error happened: %w", custom_errors.UserNotFound)
+
+			userServiceMock.EXPECT().GetUser(gomock.Any(), "invalid-user").Return(nil, errorMessage)
 
 			rr := httptest.NewRecorder()
 			req, _ := http.NewRequest(http.MethodGet, "/users/invalid-user", nil)
@@ -48,11 +51,11 @@ var _ = Describe("UserController", func() {
 
 			Expect(rr.Code).To(Equal(http.StatusNotFound))
 			body := rr.Body.Bytes()
-			var error custom_errors.ErrorResponse
-			err := json.Unmarshal(body, &error)
+			var errorResponse custom_errors.ErrorResponse
+			err := json.Unmarshal(body, &errorResponse)
 			Expect(err).ToNot(HaveOccurred())
-			Expect(error.ErrorID).To(Equal("user-1"))
-			Expect(error.ErrorMessage).To(Equal("12345"))
+			Expect(errorResponse.ErrorID).To(Equal(custom_errors.UserNotFound.Error()))
+			Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 		})
 
 		It("returns user when calling /users/{userName}", func() {
@@ -76,6 +79,75 @@ var _ = Describe("UserController", func() {
 			Expect(user.UserName).To(Equal("user-1"))
 			Expect(user.PhoneNumber).To(Equal("12345"))
 			Expect(user.Email).To(Equal("test@test.com"))
+		})
+	})
+
+	Context("CreateUser", func() {
+
+		//TODO: there seems to be a bug with our error handling
+		PIt("returns an error when error happens", func() {
+
+			username := "test"
+			email := "test@test.com"
+			phone := "1234"
+
+			errorMessage := fmt.Errorf("error happened: %w", custom_errors.DatabaseError)
+
+			userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(nil, errorMessage)
+
+			body, err := json.Marshal(&api.UserCreationRequest{
+				UserName:    username,
+				Email:       email,
+				PhoneNumber: phone,
+			})
+			Expect(err).ToNot(HaveOccurred())
+
+			rr := httptest.NewRecorder()
+			req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+
+			router.ServeHTTP(rr, req)
+
+			Expect(rr.Code).To(Equal(http.StatusInternalServerError))
+			response := rr.Body.Bytes()
+			var errorResponse custom_errors.ErrorResponse
+			err = json.Unmarshal(response, &errorResponse)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
+			Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
+		})
+
+		It("returns user when calling POST /users", func() {
+
+			username := "test"
+			email := "test@test.com"
+			phone := "1234"
+
+			userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(&common.User{
+				UserName:    username,
+				PhoneNumber: phone,
+				Email:       email,
+			}, nil)
+
+			body, err := json.Marshal(&api.UserCreationRequest{
+				UserName:    username,
+				Email:       email,
+				PhoneNumber: phone,
+			})
+			Expect(err).ToNot(HaveOccurred())
+
+			rr := httptest.NewRecorder()
+			req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+
+			router.ServeHTTP(rr, req)
+
+			Expect(rr.Code).To(Equal(http.StatusOK))
+			response := rr.Body.Bytes()
+			var user common.User
+			err = json.Unmarshal(response, &user)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(user.UserName).To(Equal(username))
+			Expect(user.PhoneNumber).To(Equal(phone))
+			Expect(user.Email).To(Equal(email))
 		})
 	})
 })

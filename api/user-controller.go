@@ -1,10 +1,12 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/emicklei/go-restful"
 	"github.com/go-playground/log"
 	"github.com/jenpaff/golang-microservices/errors"
+	"io/ioutil"
 	"strings"
 )
 
@@ -28,4 +30,33 @@ func (c *Controller) GetUser(req *restful.Request, resp *restful.Response) error
 	log.Info("health endpoint ran successfully")
 
 	return nil
+}
+
+func (c *Controller) CreateUser(req *restful.Request, resp *restful.Response) error {
+
+	log.Info("save user endpoint was invoked")
+
+	bytes, err := ioutil.ReadAll(req.Request.Body)
+	if err != nil {
+		return fmt.Errorf("could read request body: %w", err)
+	}
+
+	var creationRequest UserCreationRequest
+	err = json.Unmarshal(bytes, &creationRequest)
+	if err != nil {
+		return fmt.Errorf("could not unmarshal the user request: %w", err)
+	}
+
+	createdUser, err := c.userService.CreateUser(req.Request.Context(), creationRequest.UserName, creationRequest.Email, creationRequest.PhoneNumber)
+	if err != nil {
+		return fmt.Errorf("could not create user: %w", err)
+	}
+
+	err = resp.WriteEntity(createdUser)
+	if err != nil {
+		log.Errorf("could not write response: %s", err.Error())
+	}
+
+	return nil
+
 }

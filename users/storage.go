@@ -15,7 +15,7 @@ import (
 )
 
 type Storage interface {
-	Add(ctx context.Context, user common.User) error
+	Create(ctx context.Context, userName, email, phoneNumber string) (*common.User, error)
 	FindByName(ctx context.Context, userName string) (*common.User, error)
 }
 
@@ -27,13 +27,24 @@ func NewStorage(db *sql.DB) Storage {
 	return &storage{db: db}
 }
 
-func (p *storage) Add(ctx context.Context, user common.User) error {
+func (p *storage) Create(ctx context.Context, userName, email, phoneNumber string) (*common.User, error) {
 	newUser := &models.User{
-		Username:    user.UserName,
-		Email:       null.StringFrom(user.Email),
-		PhoneNumber: null.StringFrom(user.PhoneNumber),
+		// TODO: userId should be a uuuid
+		Username:    userName,
+		Email:       null.StringFrom(email),
+		PhoneNumber: null.StringFrom(phoneNumber),
 	}
-	return newUser.Insert(ctx, p.db, boil.Infer())
+
+	err := newUser.Insert(ctx, p.db, boil.Infer())
+	if err != nil {
+		return nil, fmt.Errorf("error saving user with userName %s: %s: %w", userName, err.Error(), custom_errors.DatabaseError)
+	}
+
+	return &common.User{
+		UserName:    userName,
+		PhoneNumber: phoneNumber,
+		Email:       email,
+	}, nil
 }
 
 func (p *storage) FindByName(ctx context.Context, userName string) (*common.User, error) {
