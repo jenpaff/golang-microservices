@@ -3,7 +3,7 @@
 package featuretoggles
 
 import (
-	"github.com/emicklei/go-restful/v3"
+	"github.com/emicklei/go-restful"
 	"github.com/golang/mock/gomock"
 	"github.com/jenpaff/golang-microservices/config"
 	"github.com/jenpaff/golang-microservices/test-helper"

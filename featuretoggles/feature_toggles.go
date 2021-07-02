@@ -3,7 +3,7 @@
 package featuretoggles
 
 import (
-	"github.com/emicklei/go-restful/v3"
+	"github.com/emicklei/go-restful"
 	"github.com/go-playground/log"
 	"github.com/jenpaff/golang-microservices/config"
 	"strconv"

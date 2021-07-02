@@ -10,6 +10,7 @@ import (
 type Service interface {
 	GetUser(ctx context.Context, userName string) (*common.User, error)
 	CreateUser(ctx context.Context, userName, email, phoneNumber string) (*common.User, error)
+	CreateUserWithNewFeature(ctx context.Context, userName, email, phoneNumber string) (*common.User, error)
 }
 
 type service struct {
@@ -29,6 +30,15 @@ func (s service) GetUser(ctx context.Context, userName string) (*common.User, er
 }
 
 func (s service) CreateUser(ctx context.Context, userName, email, phoneNumber string) (*common.User, error) {
+	// TODO: set uuid here
+	user, err := s.storage.Create(ctx, userName, email, phoneNumber)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (s service) CreateUserWithNewFeature(ctx context.Context, userName, email, phoneNumber string) (*common.User, error) {
 	// TODO: set uuid here
 	user, err := s.storage.Create(ctx, userName, email, phoneNumber)
 	if err != nil {

@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"github.com/emicklei/go-restful"
 	"github.com/go-playground/log"
+	"github.com/jenpaff/golang-microservices/common"
 	"github.com/jenpaff/golang-microservices/errors"
+	"github.com/jenpaff/golang-microservices/featuretoggles"
 	"io/ioutil"
 	"strings"
 )
@@ -36,6 +38,8 @@ func (c *Controller) CreateUser(req *restful.Request, resp *restful.Response) er
 
 	log.Info("save user endpoint was invoked")
 
+	var err error
+
 	bytes, err := ioutil.ReadAll(req.Request.Body)
 	if err != nil {
 		return fmt.Errorf("could read request body: %w", err)
@@ -47,9 +51,19 @@ func (c *Controller) CreateUser(req *restful.Request, resp *restful.Response) er
 		return fmt.Errorf("could not unmarshal the user request: %w", err)
 	}
 
-	createdUser, err := c.userService.CreateUser(req.Request.Context(), creationRequest.UserName, creationRequest.Email, creationRequest.PhoneNumber)
-	if err != nil {
-		return fmt.Errorf("could not create user: %w", err)
+	var createdUser *common.User
+
+	ft := featuretoggles.NewFeatureToggles(&c.Cfg, req)
+	if ft.IsEnabled("enableNewFeature") {
+		createdUser, err = c.userService.CreateUserWithNewFeature(req.Request.Context(), creationRequest.UserName, creationRequest.Email, creationRequest.PhoneNumber)
+		if err != nil {
+			return fmt.Errorf("could not create user: %w", err)
+		}
+	} else {
+		createdUser, err = c.userService.CreateUser(req.Request.Context(), creationRequest.UserName, creationRequest.Email, creationRequest.PhoneNumber)
+		if err != nil {
+			return fmt.Errorf("could not create user: %w", err)
+		}
 	}
 
 	err = resp.WriteEntity(createdUser)

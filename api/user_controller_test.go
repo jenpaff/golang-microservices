@@ -84,70 +84,142 @@ var _ = Describe("UserController", func() {
 
 	Context("CreateUser", func() {
 
-		//TODO: there seems to be a bug with our error handling
-		PIt("returns an error when error happens", func() {
+		Context("without new feature", func() {
 
-			username := "test"
-			email := "test@test.com"
-			phone := "1234"
+			//TODO: there seems to be a bug with our error handling
+			PIt("returns an error when error happens", func() {
 
-			errorMessage := fmt.Errorf("error happened: %w", custom_errors.DatabaseError)
+				username := "test"
+				email := "test@test.com"
+				phone := "1234"
 
-			userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(nil, errorMessage)
+				errorMessage := fmt.Errorf("error happened: %w", custom_errors.DatabaseError)
 
-			body, err := json.Marshal(&api.UserCreationRequest{
-				UserName:    username,
-				Email:       email,
-				PhoneNumber: phone,
+				userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(nil, errorMessage)
+
+				body, err := json.Marshal(&api.UserCreationRequest{
+					UserName:    username,
+					Email:       email,
+					PhoneNumber: phone,
+				})
+				Expect(err).ToNot(HaveOccurred())
+
+				rr := httptest.NewRecorder()
+				req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+
+				router.ServeHTTP(rr, req)
+
+				Expect(rr.Code).To(Equal(http.StatusInternalServerError))
+				response := rr.Body.Bytes()
+				var errorResponse custom_errors.ErrorResponse
+				err = json.Unmarshal(response, &errorResponse)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
+				Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 			})
-			Expect(err).ToNot(HaveOccurred())
 
-			rr := httptest.NewRecorder()
-			req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+			It("returns user when calling POST /users", func() {
 
-			router.ServeHTTP(rr, req)
+				username := "test"
+				email := "test@test.com"
+				phone := "1234"
 
-			Expect(rr.Code).To(Equal(http.StatusInternalServerError))
-			response := rr.Body.Bytes()
-			var errorResponse custom_errors.ErrorResponse
-			err = json.Unmarshal(response, &errorResponse)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
-			Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
+				userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(&common.User{
+					UserName:    username,
+					PhoneNumber: phone,
+					Email:       email,
+				}, nil)
+
+				body, err := json.Marshal(&api.UserCreationRequest{
+					UserName:    username,
+					Email:       email,
+					PhoneNumber: phone,
+				})
+				Expect(err).ToNot(HaveOccurred())
+
+				rr := httptest.NewRecorder()
+				req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+
+				router.ServeHTTP(rr, req)
+
+				Expect(rr.Code).To(Equal(http.StatusOK))
+				response := rr.Body.Bytes()
+				var user common.User
+				err = json.Unmarshal(response, &user)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(user.UserName).To(Equal(username))
+				Expect(user.PhoneNumber).To(Equal(phone))
+				Expect(user.Email).To(Equal(email))
+			})
 		})
 
-		It("returns user when calling POST /users", func() {
+		Context("with new feature", func() {
 
-			username := "test"
-			email := "test@test.com"
-			phone := "1234"
+			//TODO: there seems to be a bug with our error handling
+			PIt("returns an error when error happens", func() {
 
-			userServiceMock.EXPECT().CreateUser(gomock.Any(), username, email, phone).Return(&common.User{
-				UserName:    username,
-				PhoneNumber: phone,
-				Email:       email,
-			}, nil)
+				username := "test"
+				email := "test@test.com"
+				phone := "1234"
 
-			body, err := json.Marshal(&api.UserCreationRequest{
-				UserName:    username,
-				Email:       email,
-				PhoneNumber: phone,
+				errorMessage := fmt.Errorf("error happened: %w", custom_errors.DatabaseError)
+
+				userServiceMock.EXPECT().CreateUserWithNewFeature(gomock.Any(), username, email, phone).Return(nil, errorMessage)
+
+				body, err := json.Marshal(&api.UserCreationRequest{
+					UserName:    username,
+					Email:       email,
+					PhoneNumber: phone,
+				})
+				Expect(err).ToNot(HaveOccurred())
+
+				rr := httptest.NewRecorder()
+				req, _ := http.NewRequest(http.MethodPost, "/users?enableNewFeature=true", bytes.NewReader(body))
+
+				router.ServeHTTP(rr, req)
+
+				Expect(rr.Code).To(Equal(http.StatusInternalServerError))
+				response := rr.Body.Bytes()
+				var errorResponse custom_errors.ErrorResponse
+				err = json.Unmarshal(response, &errorResponse)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
+				Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 			})
-			Expect(err).ToNot(HaveOccurred())
 
-			rr := httptest.NewRecorder()
-			req, _ := http.NewRequest(http.MethodPost, "/users", bytes.NewReader(body))
+			It("returns user when calling POST /users", func() {
 
-			router.ServeHTTP(rr, req)
+				username := "test"
+				email := "test@test.com"
+				phone := "1234"
 
-			Expect(rr.Code).To(Equal(http.StatusOK))
-			response := rr.Body.Bytes()
-			var user common.User
-			err = json.Unmarshal(response, &user)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(user.UserName).To(Equal(username))
-			Expect(user.PhoneNumber).To(Equal(phone))
-			Expect(user.Email).To(Equal(email))
+				userServiceMock.EXPECT().CreateUserWithNewFeature(gomock.Any(), username, email, phone).Return(&common.User{
+					UserName:    username,
+					PhoneNumber: phone,
+					Email:       email,
+				}, nil)
+
+				body, err := json.Marshal(&api.UserCreationRequest{
+					UserName:    username,
+					Email:       email,
+					PhoneNumber: phone,
+				})
+				Expect(err).ToNot(HaveOccurred())
+
+				rr := httptest.NewRecorder()
+				req, _ := http.NewRequest(http.MethodPost, "/users?enableNewFeature=true", bytes.NewReader(body))
+
+				router.ServeHTTP(rr, req)
+
+				Expect(rr.Code).To(Equal(http.StatusOK))
+				response := rr.Body.Bytes()
+				var user common.User
+				err = json.Unmarshal(response, &user)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(user.UserName).To(Equal(username))
+				Expect(user.PhoneNumber).To(Equal(phone))
+				Expect(user.Email).To(Equal(email))
+			})
 		})
 	})
 })

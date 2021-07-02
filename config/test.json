@@ -9,6 +9,6 @@
     "sslEnabled": false
   },
   "featureToggles": {
-    "enableNewFeature": true
+    "enableNewFeature": false
   }
 }

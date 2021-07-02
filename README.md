@@ -6,6 +6,11 @@ A collection of blog articles on building a microservice in Go
 
 List of topics that we want to cover within the tutorials / blog posts
 
+## TO FIX
+- [ ] bug in error handling (see controller tests)
+- [ ] Database connection
+- [ ] unique constraint in db? 
+
 ### Developer Setup
 
 - [ ] Golang setup (how to install & configure)
@@ -19,7 +24,7 @@ List of topics that we want to cover within the tutorials / blog posts
 - [ ] providing batch commands in separate binaries (DB migration)
 - [ ] validation (JSON schema) => Jen
 - [x] ORM (sqlboiler...)
-- [ ] Feature Toggles => Jen
+- [X] Feature Toggles => Jen
 - [ ] authentication & authorization (e.g. use GitHub SSO) => we don't need the codebase for this
 - [ ] different types: requestTypes, domain model, storage types
 - [ ] Swagger documentation

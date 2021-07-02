@@ -49,6 +49,21 @@ func (mr *MockServiceMockRecorder) CreateUser(arg0, arg1, arg2, arg3 interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockService)(nil).CreateUser), arg0, arg1, arg2, arg3)
 }
 
+// CreateUserWithNewFeature mocks base method
+func (m *MockService) CreateUserWithNewFeature(arg0 context.Context, arg1, arg2, arg3 string) (*common.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUserWithNewFeature", arg0, arg1, arg2, arg3)
+	ret0, _ := ret[0].(*common.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUserWithNewFeature indicates an expected call of CreateUserWithNewFeature
+func (mr *MockServiceMockRecorder) CreateUserWithNewFeature(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUserWithNewFeature", reflect.TypeOf((*MockService)(nil).CreateUserWithNewFeature), arg0, arg1, arg2, arg3)
+}
+
 // GetUser mocks base method
 func (m *MockService) GetUser(arg0 context.Context, arg1 string) (*common.User, error) {
 	m.ctrl.T.Helper()
