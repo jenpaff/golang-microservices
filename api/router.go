@@ -58,17 +58,15 @@ func newService(controller *Controller) *restful.WebService {
 			Writes(common.User{}).
 			Metadata(restfulspec.KeyOpenAPITags, tagsUser).
 			Produces(restful.MIME_JSON).
-			Consumes(restful.MIME_JSON).
 			Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
 
 	ws.Route(
 		ws.POST("/users").
 			To(errors.ErrorHandler(controller.CreateUser)).
-			Doc("create  users endpoint").
+			Doc("create users endpoint").
 			Writes(common.User{}).
 			Produces(restful.MIME_JSON).
 			Reads(UserCreationRequest{}).
-			Consumes(restful.MIME_JSON).
 			Metadata(restfulspec.KeyOpenAPITags, tagsUser).
 			Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
 	return ws
