@@ -47,9 +47,11 @@ func (e *httpError) toErrorResponse(details string) (int, ErrorResponse) {
 }
 
 func httpErrorFromError(wrappedError error) *httpError {
-	baseError := errors.Unwrap(wrappedError)
-	if httpError, ok := httpErrors[baseError]; ok {
-		return httpError
+	for wrappedError != nil {
+		wrappedError = errors.Unwrap(wrappedError)
+		if httpError, ok := httpErrors[wrappedError]; ok {
+			return httpError
+		}
 	}
 	return InternalServerError
 }

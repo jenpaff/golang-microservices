@@ -39,12 +39,11 @@ var _ = Describe("UserController", func() {
 
 	Context("GetUser", func() {
 
-		//TODO: there seems to be a bug with our error handling
-		PIt("returns an error when user does not exist", func() {
+		It("returns an error when user does not exist", func() {
 
-			errorMessage := fmt.Errorf("error happened: %w", custom_errors.UserNotFound)
+			userNotFoundError := fmt.Errorf("error happened: %w", custom_errors.UserNotFound)
 
-			userServiceMock.EXPECT().GetUser(gomock.Any(), "invalid-user").Return(nil, errorMessage)
+			userServiceMock.EXPECT().GetUser(gomock.Any(), "invalid-user").Return(nil, userNotFoundError)
 
 			rr := httptest.NewRecorder()
 			req, _ := http.NewRequest(http.MethodGet, "/users/invalid-user", nil)
@@ -57,7 +56,6 @@ var _ = Describe("UserController", func() {
 			err := json.Unmarshal(body, &errorResponse)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(errorResponse.ErrorID).To(Equal(custom_errors.UserNotFound.Error()))
-			Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 		})
 
 		It("returns user when calling /users/{userName}", func() {
@@ -88,8 +86,7 @@ var _ = Describe("UserController", func() {
 
 		Context("without new feature", func() {
 
-			//TODO: there seems to be a bug with our error handling
-			PIt("returns an error when error happens", func() {
+			It("returns an error when error happens", func() {
 
 				username := "test"
 				email := "test@test.com"
@@ -117,7 +114,6 @@ var _ = Describe("UserController", func() {
 				err = json.Unmarshal(response, &errorResponse)
 				Expect(err).ToNot(HaveOccurred())
 				Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
-				Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 			})
 
 			It("returns user when calling POST /users", func() {
@@ -157,8 +153,7 @@ var _ = Describe("UserController", func() {
 
 		Context("with new feature", func() {
 
-			//TODO: there seems to be a bug with our error handling
-			PIt("returns an error when error happens", func() {
+			It("returns an error when error happens", func() {
 
 				username := "test"
 				email := "test@test.com"
@@ -186,7 +181,6 @@ var _ = Describe("UserController", func() {
 				err = json.Unmarshal(response, &errorResponse)
 				Expect(err).ToNot(HaveOccurred())
 				Expect(errorResponse.ErrorID).To(Equal(custom_errors.DatabaseError.Error()))
-				Expect(errorResponse.ErrorMessage).To(Equal(errorMessage.Error()))
 			})
 
 			It("returns user when calling POST /users", func() {
