@@ -26,7 +26,7 @@ List of topics that we want to cover within the tutorials / blog posts
 - [X] Feature Toggles => Jen
 - [ ] authentication & authorization (e.g. use GitHub SSO) => we don't need the codebase for this
 - [ ] different types: requestTypes, domain model, storage types
-- [ ] Swagger documentation
+- [ ] Swagger documentation => Jen
 
 ### Testing
 

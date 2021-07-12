@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/emicklei/go-restful"
+	"github.com/emicklei/go-restful/v3"
 	"github.com/go-playground/log"
 	"github.com/jenpaff/golang-microservices/common"
 	"github.com/jenpaff/golang-microservices/errors"
