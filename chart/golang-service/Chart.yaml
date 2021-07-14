@@ -1,0 +1,10 @@
+apiVersion: v2
+name: golang-service
+description: A chart for deploying golang-service to k8s.
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+dependencies:
+  - name: common-svc
+    version: 1.0.0
+    repository: file://../../../common-svc/

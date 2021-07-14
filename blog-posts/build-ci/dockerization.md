@@ -11,7 +11,7 @@
 
 Building your Golang Microservice requires a Golang setup on the build machine. You can either provide this setup on the machine itself or move the build completely into a Docker container.
 
-The [`Dockerfile`](../Dockerfile) provided in this repository uses a so called [multi-stage build](https://docs.docker.com/develop/develop-images/multistage-build/), which means that you have a *build stage* in your Dockerfile that uses a Docker image with Golang tooling to build your binary and later on a stage that uses the artifact built in the build stage to be copied into a Docker image that only provides a bare minimum system.
+The [`Dockerfile`](../../Dockerfile) provided in this repository uses a so called [multi-stage build](https://docs.docker.com/develop/develop-images/multistage-build/), which means that you have a *build stage* in your Dockerfile that uses a Docker image with Golang tooling to build your binary and later on a stage that uses the artifact built in the build stage to be copied into a Docker image that only provides a bare minimum system.
 
 The benefits of this approach are:
 

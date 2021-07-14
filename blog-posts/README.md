@@ -10,17 +10,17 @@
 
 ## Local Developer Setup
 
-* [`./do` script](do-script.md)
+* [`./do` script](build-ci/do-script.md)
 
 ## Build Tooling
 
-* [Building the Docker Image](dockerization.md)
+* [Building the Docker Image](build-ci/dockerization.md)
 
 ## Testing
 
-* [Testing (with Ginkgo)](testing.md)
+* [Testing (with Ginkgo)](testing/testing.md)
 
 ## REST Service Implementation
 
 * [How we structured our service](project-structure.md)
-* [Error Handling and HTTP Status](rest-error-handling.md)
+* [Error Handling and HTTP Status](coding/rest-error-handling.md)

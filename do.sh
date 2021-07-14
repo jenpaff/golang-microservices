@@ -253,6 +253,91 @@ function assert_ginkgo {
     fi
 }
 
+function check_sed {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    current_sed=$(command -v sed)
+    if [[ "$current_sed" == "/usr/bin/sed" ]]; then
+      echo "sed on OSX is not compatible with GNU sed. Please run brew install gnu-sed and then follow the onscreen instructions."
+      exit 1
+    fi
+  fi
+}
+
+## helm-install [... many parameters ...]: upgrade or install helm chart
+function task_helm_install {
+
+  check_sed
+
+  version=$1
+  config_file=$2
+  host=$3
+  repository=$4
+  db_name=$5
+  db_user=$6
+  db_password=$7
+
+  deployment_dir="chart-out"
+
+  if [ -d ${deployment_dir} ]; then
+    rm -r ${deployment_dir}
+  fi
+
+  output_dir="${deployment_dir}/golang-service"
+
+  cp -r chart ${deployment_dir}
+  sed -i "s/^\(version.* \).*$/\1${version}/" ${output_dir}/Chart.yaml
+  sed -i "s/^\(appVersion.* \).*$/\1${version}/" ${output_dir}/Chart.yaml
+
+  helm dependencies update ${output_dir}
+
+    helm_params=(
+    --values "../common-svc/values.yaml" \
+    --values "./chart/golang-service/values.yaml" \
+    --set-file "configFile=${config_file}" \
+    --set "secrets.db_name=${db_name}" \
+    --set "secrets.db_user=${db_user}" \
+    --set "secrets.db_password=${db_password}" \
+    --set "image.tag=${version}" \
+    --set "image.repository=${repository}" \
+    --set "ingress.host=${host}"
+  )
+
+  # Unfortunately helm upgrade typically fails silently, therefore
+  # we run a helm lint to get a warning/error about mis-configured values
+  helm lint "${output_dir}" "${helm_params[@]}" --debug
+
+  # Update the release
+  helm upgrade --install ${appName} "${output_dir}" "${helm_params[@]}" --wait
+}
+
+## url-for-stage [stage] : Returns url for pkg service for a given stage
+function task_url_for_stage {
+  local stage=$1
+
+  if [[ "${stage}" == "prod" ]]; then
+    echo "golang-service.com"
+  else
+    echo "golang-service-${stage}.com"
+  fi
+}
+
+## deploy [... many parameters ...]: deploy service on given stage
+function task_deploy {
+  stage=$1
+  version=$2
+  db_name=$3
+  db_user=$4
+  db_password=$5
+
+  echo "Fetching Params"
+  host="$(task_url_for_stage "$stage")"
+  config_file="./config/${stage}.json"
+  repository="golang-service.aws.net"
+
+  echo "Installing ${version} on ${stage}"
+  task_helm_install "${version}" "${config_file}" "${host}" "${repository}" "${db_name}" "${db_user}" "${db_password}"
+}
+
 # read expected task as first CLI parameter
 task=${1:-}
 

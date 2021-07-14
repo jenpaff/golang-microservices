@@ -1,0 +1,18 @@
+---
+replicaCount: 3
+
+image:
+  tag: to-be-replaced
+  repository: to-be-replaced
+
+service:
+  containerPort: 12345
+  probes:
+    startup:
+      periodSeconds: 30
+
+ingress:
+  enabled: true
+  host: to-be-replaced
+
+configFile: to-be-overwritten

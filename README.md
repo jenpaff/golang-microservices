@@ -8,7 +8,6 @@ List of topics that we want to cover within the tutorials / blog posts
 
 ## TO FIX
 - [ ] Database connection
-- [ ] unique constraint in db? 
 
 ### Developer Setup
 
@@ -18,9 +17,9 @@ List of topics that we want to cover within the tutorials / blog posts
 
 - [ ] architecture: router - controller - services - client - model - storage - helpers / commons => at the end! 
 - [ ] simple HTTP router / controller / go-restful 
-- [ ] configuration (default config & override from json & read from environment) => Jen
-- [ ] error handling (mapping errors to HTTP status codes) => Michael
-- [ ] providing batch commands in separate binaries (DB migration)
+- [X] configuration (default config & override from json & read from environment) => Jen
+- [X] error handling (mapping errors to HTTP status codes) => Michael
+- [X] providing batch commands in separate binaries (DB migration)
 - [ ] validation (JSON schema) => Jen
 - [x] ORM (sqlboiler...)
 - [X] Feature Toggles => Jen
@@ -39,11 +38,11 @@ List of topics that we want to cover within the tutorials / blog posts
 
 ### Build & CI
 
-- [ ] `./do` script (vs pipeline tasks)
-- [ ] local dev setup (Docker, compose, config.json)
+- [X] `./do` script (vs pipeline tasks)
+- [X] local dev setup (Docker, compose, config.json)
 - [ ] versioning (traceability)
 - [ ] linting
-- [ ] packaging with Docker (`Dockerfile`, building container images)
+- [X] packaging with Docker (`Dockerfile`, building container images)
 - [ ] simple GitHub Actions pipeline
 - [ ] using go modules from private repositories (`go.customer.com/...`) with proper `.gitconfig`...
 - [x] provide a `Dockerfile` example for a multi-stage build - see https://levelup.gitconnected.com/complete-guide-to-create-docker-container-for-your-golang-application-80f3fb59a15e
