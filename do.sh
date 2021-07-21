@@ -307,7 +307,7 @@ function task_helm_install {
   helm lint "${output_dir}" "${helm_params[@]}" --debug
 
   # Update the release
-  helm upgrade --install ${appName} "${output_dir}" "${helm_params[@]}" --wait
+  helm upgrade --install "golang-service" "${output_dir}" "${helm_params[@]}" --wait
 }
 
 ## url-for-stage [stage] : Returns url for pkg service for a given stage

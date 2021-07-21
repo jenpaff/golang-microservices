@@ -12,9 +12,6 @@ import (
 const (
 	validRegexInput = "validRegexInput"
 	notBlank        = "notBlank"
-	lte             = "lte"
-	gte             = "gte"
-	required        = "required"
 )
 
 func NewValidate() (*validator.Validate, error) {
@@ -64,14 +61,8 @@ func getMessage(fieldError validator.FieldError) string {
 	field := fieldError.Field()
 	tag := fieldError.Tag()
 	switch tag {
-	case required:
-		return fmt.Sprintf("The field %s is required and should not be empty.", field)
 	case validRegexInput:
 		return fmt.Sprintf("The field %s contains invalid characters- only the following characters are allowed: a-zA-Z0-9", field)
-	case lte:
-		return fmt.Sprintf("The field %s contains too many characters.", field)
-	case gte:
-		return fmt.Sprintf("The field %s does not contain enough characters.", field)
 	case notBlank:
 		return fmt.Sprintf("The field %s should not contain blank spaces only.", field)
 	default:

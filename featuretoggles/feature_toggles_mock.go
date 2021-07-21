@@ -5,35 +5,34 @@
 package featuretoggles
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/golang/mock/gomock"
+	reflect "reflect"
 )
 
-// MockFeatureToggles is a mock of FeatureToggles interface.
+// MockFeatureToggles is a mock of FeatureToggles interface
 type MockFeatureToggles struct {
 	ctrl     *gomock.Controller
 	recorder *MockFeatureTogglesMockRecorder
 }
 
-// MockFeatureTogglesMockRecorder is the mock recorder for MockFeatureToggles.
+// MockFeatureTogglesMockRecorder is the mock recorder for MockFeatureToggles
 type MockFeatureTogglesMockRecorder struct {
 	mock *MockFeatureToggles
 }
 
-// NewMockFeatureToggles creates a new mock instance.
+// NewMockFeatureToggles creates a new mock instance
 func NewMockFeatureToggles(ctrl *gomock.Controller) *MockFeatureToggles {
 	mock := &MockFeatureToggles{ctrl: ctrl}
 	mock.recorder = &MockFeatureTogglesMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockFeatureToggles) EXPECT() *MockFeatureTogglesMockRecorder {
 	return m.recorder
 }
 
-// IsEnabled mocks base method.
+// IsEnabled mocks base method
 func (m *MockFeatureToggles) IsEnabled(arg0 string) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "IsEnabled", arg0)
@@ -41,7 +40,7 @@ func (m *MockFeatureToggles) IsEnabled(arg0 string) bool {
 	return ret0
 }
 
-// IsEnabled indicates an expected call of IsEnabled.
+// IsEnabled indicates an expected call of IsEnabled
 func (mr *MockFeatureTogglesMockRecorder) IsEnabled(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsEnabled", reflect.TypeOf((*MockFeatureToggles)(nil).IsEnabled), arg0)

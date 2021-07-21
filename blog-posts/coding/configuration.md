@@ -70,9 +70,8 @@ Secrets are injected during deployment in the following steps:
  ./do deploy "$STAGE" "$VERSION" "$DBNAME" "$DBUSER" "$DBPASSWORD"
  ```
 
-Eventually this `do-`script uses helm to inject the secrets into the configuration. 
-
-- [ ] more info about helm 
+Eventually, we use `helm`, a package manager for kubernetes to configure our k8s pod. 
+`Helm` offers templating such that we can inject the secrets into the helm configuration ("helm charts") during deployment. 
 
 ## Injecting secrets for local development
 A trick we do when developing locally is that we fetch all necessary secrets and inject them in our `local-temp.json` 
@@ -87,7 +86,7 @@ To test this out do
 
 ### How the config service is implemented
 
-The way we implemented our config service we require 3 bits of information:
+Our config service requires 3 pieces of information:
 1. *configPath* - path to our configuration file, passed in as argument to our binary
 2. *secretsDirectoryPath* - path to our secrets directory, passed in as argument to our binary
 3. *secretsEnv* - environment variable 
@@ -98,7 +97,11 @@ If you look at our `Dockerfile` you will see how our `webservice` binary is star
 CMD ./webservice "/service/config/config.json" "/service/secrets"
 ```
 
-- [ ] continue explanation
+There's 2 ways we can have our secrets injected 
+1. we can store our secret in a secrets directory e.g. `/service/secrets` as we do above
+2. we can pass in our secrets as environment variables  e.g. in our `docker-compose.yml` we define our env as `ENV_SECRETS` 
+
+- [ ] further explanation?
 
 ## Further Resources
 - [ ] add resources

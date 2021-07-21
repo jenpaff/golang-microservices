@@ -6,36 +6,35 @@ package users
 
 import (
 	context "context"
-	reflect "reflect"
-
 	gomock "github.com/golang/mock/gomock"
 	common "github.com/jenpaff/golang-microservices/common"
+	reflect "reflect"
 )
 
-// MockStorage is a mock of Storage interface.
+// MockStorage is a mock of Storage interface
 type MockStorage struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageMockRecorder
 }
 
-// MockStorageMockRecorder is the mock recorder for MockStorage.
+// MockStorageMockRecorder is the mock recorder for MockStorage
 type MockStorageMockRecorder struct {
 	mock *MockStorage
 }
 
-// NewMockStorage creates a new mock instance.
+// NewMockStorage creates a new mock instance
 func NewMockStorage(ctrl *gomock.Controller) *MockStorage {
 	mock := &MockStorage{ctrl: ctrl}
 	mock.recorder = &MockStorageMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockStorage) EXPECT() *MockStorageMockRecorder {
 	return m.recorder
 }
 
-// Create mocks base method.
+// Create mocks base method
 func (m *MockStorage) Create(arg0 context.Context, arg1, arg2, arg3 string) (*common.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2, arg3)
@@ -44,13 +43,13 @@ func (m *MockStorage) Create(arg0 context.Context, arg1, arg2, arg3 string) (*co
 	return ret0, ret1
 }
 
-// Create indicates an expected call of Create.
+// Create indicates an expected call of Create
 func (mr *MockStorageMockRecorder) Create(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStorage)(nil).Create), arg0, arg1, arg2, arg3)
 }
 
-// FindByName mocks base method.
+// FindByName mocks base method
 func (m *MockStorage) FindByName(arg0 context.Context, arg1 string) (*common.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByName", arg0, arg1)
@@ -59,7 +58,7 @@ func (m *MockStorage) FindByName(arg0 context.Context, arg1 string) (*common.Use
 	return ret0, ret1
 }
 
-// FindByName indicates an expected call of FindByName.
+// FindByName indicates an expected call of FindByName
 func (mr *MockStorageMockRecorder) FindByName(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockStorage)(nil).FindByName), arg0, arg1)

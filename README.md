@@ -20,12 +20,13 @@ List of topics that we want to cover within the tutorials / blog posts
 - [X] configuration (default config & override from json & read from environment) => Jen
 - [X] error handling (mapping errors to HTTP status codes) => Michael
 - [X] providing batch commands in separate binaries (DB migration)
-- [ ] validation (JSON schema) => Jen
+- [X] validation (JSON schema) => Jen
 - [x] ORM (sqlboiler...)
 - [X] Feature Toggles => Jen
 - [ ] authentication & authorization (e.g. use GitHub SSO) => we don't need the codebase for this
 - [ ] different types: requestTypes, domain model, storage types
-- [ ] Swagger documentation => Jen
+- [X] Swagger documentation => Jen
+- [ ] Performance & Benchmarking
 
 ### Testing
 
