@@ -3,22 +3,22 @@
 ## Motivation
 Spring Boot almost spoils you with the ease of generating Swagger OpenAPI Documentation 
 by adding a few annotations and configuration. 
-With such an experience in mind, we've decided to switch to [go-restful](https://github.com/emicklei/go-restful), 
+With such an experience in mind, we've decided to switch our router implementation with [go-restful](https://github.com/emicklei/go-restful), 
 a package for building REST-style Web Services using Google Go which comes with a Swagger Documentation built-in.
 
 ## Usage 
 `go-restful` allows us to add documentation at our REST endpoint definition, e.g. 
 
 ```go
-	ws.Route(
-		ws.GET("/users/{userName}").
-			To(errors.ErrorHandler(controller.GetUser)).
-			Doc("get users endpoint").
-			Param(ws.PathParameter("userName", "name of the user").DataType("string")).
-			Writes(common.User{}).
-			Metadata(restfulspec.KeyOpenAPITags, tagsUser).
-			Produces(restful.MIME_JSON).
-			Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
+ws.Route(
+    ws.GET("/users/{userName}").
+        To(errors.ErrorHandler(controller.GetUser)).
+        Doc("get users endpoint").
+        Param(ws.PathParameter("userName", "name of the user").DataType("string")).
+        Writes(common.User{}).
+        Metadata(restfulspec.KeyOpenAPITags, tagsUser).
+        Produces(restful.MIME_JSON).
+        Returns(http.StatusOK, http.StatusText(http.StatusOK), common.User{}))
 ```
 
 The Swagger Documentation for this endpoint looks something like this:

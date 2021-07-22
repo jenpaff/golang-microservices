@@ -3,7 +3,6 @@ package validation
 import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
-	"github.com/go-playground/validator/v10/non-standard/validators"
 	"github.com/jenpaff/golang-microservices/errors"
 	"reflect"
 	"strings"
@@ -11,7 +10,7 @@ import (
 
 const (
 	validRegexInput = "validRegexInput"
-	notBlank        = "notBlank"
+	required        = "required"
 )
 
 func NewValidate() (*validator.Validate, error) {
@@ -26,10 +25,6 @@ func NewValidate() (*validator.Validate, error) {
 		return name
 	})
 	err := registerValidation(validate, validRegexInput, isInputValid)
-	if err != nil {
-		return nil, err
-	}
-	err = registerValidation(validate, notBlank, validators.NotBlank)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +58,8 @@ func getMessage(fieldError validator.FieldError) string {
 	switch tag {
 	case validRegexInput:
 		return fmt.Sprintf("The field %s contains invalid characters- only the following characters are allowed: a-zA-Z0-9", field)
-	case notBlank:
-		return fmt.Sprintf("The field %s should not contain blank spaces only.", field)
+	case required:
+		return fmt.Sprintf("The field %s is required.", field)
 	default:
 		return fmt.Sprintf("Could not resolve validation tag %s for %s", tag, field)
 	}

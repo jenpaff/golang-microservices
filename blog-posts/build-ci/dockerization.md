@@ -50,3 +50,6 @@ Building and running is wrapped in another `./do` script task:
 
 - [ ] describe how config is mounted into the container
 - [ ] idea of 12-factor app regarding "injecting" the config
+
+## Further resources 
+- https://levelup.gitconnected.com/complete-guide-to-create-docker-container-for-your-golang-application-80f3fb59a15e

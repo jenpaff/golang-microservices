@@ -11,7 +11,7 @@ var _ = Describe("Validation", func() {
 
 	var mockCtrl *gomock.Controller
 	type Example struct {
-		Name string `json:"name" validate:"notBlank,validRegexInput"`
+		Name string `json:"name" validate:"required,validRegexInput"`
 	}
 
 	BeforeEach(func() {
