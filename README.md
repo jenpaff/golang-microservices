@@ -65,5 +65,4 @@ List of topics that we want to cover within the tutorials / blog posts
 ## References
 
 * [GitHub Actions for Golang](https://github.com/mvdan/github-actions-golang)
-* [Set up Golang on Mac with Homebrew](https://jimkang.medium.com/install-go-on-mac-with-homebrew-5fa421fc55f5)
 * [go-restful blog post](http://ernestmicklei.com/2012/11/go-restful-first-working-example/)
